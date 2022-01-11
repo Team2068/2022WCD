@@ -16,7 +16,7 @@ public class DriveSubsystem extends SubsystemBase {
     private CANSparkMax backLeft = new CANSparkMax(DriveConstants.BACK_LEFT, MotorType.kBrushless);
     private CANSparkMax backRight = new CANSparkMax(DriveConstants.BACK_RIGHT, MotorType.kBrushless);
 
-    private MotorControllerGroup leftMotors = new MotorControllerGroup(frontLeft, frontRight);
+    private MotorControllerGroup leftMotors = new MotorControllerGroup(frontLeft, backLeft);
     private MotorControllerGroup rightMotors = new MotorControllerGroup(frontRight, backRight);
 
     private DifferentialDrive differentialDrive = new DifferentialDrive(leftMotors, rightMotors);
