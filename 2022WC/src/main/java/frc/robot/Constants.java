@@ -12,4 +12,18 @@ package frc.robot;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class Constants {}
+public final class Constants {
+
+    public final static double ROBOT_HEIGHT = 0.0;
+
+    public final static class GameElementConstants {
+        public final static double UPPER_HUB = 2.64; //meters
+        public final static double LOWER_HUB = 1.04; //meters
+        public final static double HIGH_HEIGHT = UPPER_HUB - ROBOT_HEIGHT;
+        public final static double LOW_HEIGHT = LOWER_HUB - ROBOT_HEIGHT;
+    }
+    public final static class ShooterConstants {
+        public final static int FLYWHEEL_1 = 8;
+        public final static int FLYWHEEL_2 = 9;
+    }
+}
