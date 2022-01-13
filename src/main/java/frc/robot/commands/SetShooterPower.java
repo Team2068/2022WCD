@@ -5,13 +5,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.ShooterSubsystem;
 
 public class SetShooterPower extends CommandBase {
-  private Shooter shooter;
+  private ShooterSubsystem shooter;
   
   /** Creates a new SetShooterPower. */
-  public SetShooterPower(Shooter shooter) {
+  public SetShooterPower(ShooterSubsystem shooter) {
     this.shooter = shooter;
     addRequirements(shooter);
     // Use addRequirements() here to declare subsystem dependencies.
