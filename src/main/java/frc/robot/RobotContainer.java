@@ -22,6 +22,7 @@ import frc.robot.commands.InvertTankDrive;
 import frc.robot.commands.SetShooterPower;
 import frc.robot.commands.SlowOff;
 import frc.robot.commands.SlowOn;
+import frc.robot.commands.SwitchPipeline;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.TurboOff;
 import frc.robot.commands.TurboOn;
@@ -98,6 +99,7 @@ public class RobotContainer {
     driverLeftTrigger.whenActive(new SlowOn(driveSubsystem)).whenInactive(new SlowOff(driveSubsystem));
     driverY.whileHeld(new SetShooterPower(shooter));
     driverX.whileHeld(new Aimbot(limelight, driveSubsystem));
+    driverB.whenPressed(new SwitchPipeline(limelight));
   }
     // driverController
   
