@@ -16,7 +16,9 @@ public class climberAlign extends CommandBase {
   DriveSubsystem driveSubsystem;
   
   /** Creates a new climberAlign. */
-  public climberAlign() {
+  public climberAlign(ColorSensor color_sensor, DriveSubsystem driveSubsystem) {
+    cSensor = color_sensor;
+    this.driveSubsystem = driveSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(cSensor);
     addRequirements(driveSubsystem);
@@ -26,7 +28,7 @@ public class climberAlign extends CommandBase {
   @Override
   public void initialize() {
     //If censor found
-    if(!cSensor.checkSensor()){
+    if(!cSensor.isConnected()){
       this.end(true);
     }
     cSensor.color_matcher.addColorMatch(Color.kBlack);
@@ -39,6 +41,7 @@ public class climberAlign extends CommandBase {
     Color detected_Color = cSensor.getColor();
     ColorMatchResult match = cSensor.matchColorTo(detected_Color);
     if(match.color == Color.kBlack){
+      //indicate or activate the climber
       this.cancel();
     }else{
       driveSubsystem.tankDrive(-driveSpeed, driveSpeed);
@@ -50,6 +53,7 @@ public class climberAlign extends CommandBase {
   public void end(boolean interrupted) {
     if(interrupted){
       //Display the that the sensor was not found
+      DriverStation.reportWarning("Color sensor not found.");
     }
   }
 

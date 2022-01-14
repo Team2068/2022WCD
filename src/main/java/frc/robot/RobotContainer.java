@@ -42,12 +42,15 @@ import frc.robot.subsystems.Shooter;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Limelight limelight = new Limelight(LimelightConstants.LedMode.DEFAULT, LimelightConstants.CamMode.VISION);
-  
+
   private final DriveSubsystem driveSubsystem = new DriveSubsystem();
 
   private final XboxController driverController = new XboxController(DriveConstants.driverController);
   private final XboxController mechanismController = new XboxController(DriveConstants.mechanismController);
+  private final ColorSensor color_sensor = new ColorSensor();
   private final Shooter shooter = new Shooter();
+  private boolean isShooter;
+  
 
   private SendableChooser<Command> autonomousChooser = new SendableChooser<Command>();
 
@@ -66,8 +69,6 @@ public class RobotContainer {
    * created by instantiating a {@link GenericHID} or one of its subclasses
    * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   * 
-   * 
    */
   private void configureButtonBindings() {
     Trigger driverRightTrigger = new Trigger(() -> driverController
@@ -81,6 +82,8 @@ public class RobotContainer {
     JoystickButton driverX = new JoystickButton(driverController, Button.kX.value);
     JoystickButton driverB = new JoystickButton(driverController, Button.kB.value);
     JoystickButton driverA = new JoystickButton(driverController, Button.kA.value);
+    JoystickButton[] drivers = {driverY, driverX, driverB, driverA};
+
     Trigger mechanismRightTrigger = new Trigger(() -> mechanismController
         .getRawAxis(ControllerConstants.RIGHT_TRIGGER) > ControllerConstants.TRIGGER_ACTIVATION_THRESHOLD);
     Trigger mechanismLeftTrigger = new Trigger(() -> mechanismController
@@ -95,8 +98,26 @@ public class RobotContainer {
 
     driverRightTrigger.whenActive(new TurboOn(driveSubsystem)).whenInactive(new TurboOff(driveSubsystem));
     driverLeftTrigger.whenActive(new SlowOn(driveSubsystem)).whenInactive(new SlowOff(driveSubsystem));
-    driverY.whileHeld(new SetShooterPower(shooter));
-    driverX.whileHeld(new Aimbot(limelight, driveSubsystem));
+    driverA.whileHeld(switchBindings(drivers));
+  }
+
+  private void configureClimberBindings(JoystickButton[] drivers){
+    drivers[0].whileHeld(new climberAlign(color_sensor, driveSubsystem))
+  }
+
+  private void configureShooterBindings(JoystickButton[] drivers){
+    drivers[0].whileHeld(new SetShooterPower(shooter));
+    drivers[1].whileHeld(new Aimbot(limelight, driveSubsystem));
+  }
+
+  private void switchBindings(driver){
+    if(isShooter){
+      configureClimberBindings();
+      isShooter = false;
+    }else{
+      configureShooterBindings();
+      isShooter = true;
+    }
   }
     // driverController
   

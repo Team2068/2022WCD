@@ -30,7 +30,7 @@ public class ColorSensor extends SubsystemBase{
     return color_matcher.matchClosestColor(currentColor);
   }
 
-  public boolean checkSensor(){
+  public boolean isConnected(){
     return sensor.isConnected();
   }
 }
