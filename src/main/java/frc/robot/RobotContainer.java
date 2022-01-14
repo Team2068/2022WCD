@@ -110,12 +110,12 @@ public class RobotContainer {
     drivers[1].whileHeld(new Aimbot(limelight, driveSubsystem));
   }
 
-  private void switchBindings(driver){
+  private void switchBindings(JoystickButton[] drivers){
     if(isShooter){
-      configureClimberBindings();
+      configureClimberBindings(drivers);
       isShooter = false;
     }else{
-      configureShooterBindings();
+      configureShooterBindings(drivers);
       isShooter = true;
     }
   }
