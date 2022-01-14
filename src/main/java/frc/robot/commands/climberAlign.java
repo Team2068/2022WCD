@@ -53,7 +53,7 @@ public class climberAlign extends CommandBase {
   public void end(boolean interrupted) {
     if(interrupted){
       //Display the that the sensor was not found
-      DriverStation.reportWarning("Color sensor not found.");
+      DriverStation.reportWarning("Color sensor not found.", false);
     }
   }
 
