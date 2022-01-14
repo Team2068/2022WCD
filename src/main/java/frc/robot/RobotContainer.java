@@ -102,7 +102,7 @@ public class RobotContainer {
   }
 
   private void configureClimberBindings(JoystickButton[] drivers){
-    drivers[0].whileHeld(new climberAlign(color_sensor, driveSubsystem))
+    drivers[0].whileHeld(new climberAlign(color_sensor, driveSubsystem));
   }
 
   private void configureShooterBindings(JoystickButton[] drivers){
