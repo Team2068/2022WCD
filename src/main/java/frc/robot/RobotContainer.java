@@ -22,6 +22,7 @@ import frc.robot.commands.InvertTankDrive;
 import frc.robot.commands.SetShooterPower;
 import frc.robot.commands.SlowOff;
 import frc.robot.commands.SlowOn;
+import frc.robot.commands.SwitchBindings;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.TurboOff;
 import frc.robot.commands.TurboOn;
@@ -47,9 +48,6 @@ public class RobotContainer {
 
   private final XboxController driverController = new XboxController(DriveConstants.driverController);
   private final XboxController mechanismController = new XboxController(DriveConstants.mechanismController);
-  private final ColorSensor color_sensor = new ColorSensor();
-  private final Shooter shooter = new Shooter();
-  private boolean isShooter;
   
 
   private SendableChooser<Command> autonomousChooser = new SendableChooser<Command>();
@@ -98,26 +96,7 @@ public class RobotContainer {
 
     driverRightTrigger.whenActive(new TurboOn(driveSubsystem)).whenInactive(new TurboOff(driveSubsystem));
     driverLeftTrigger.whenActive(new SlowOn(driveSubsystem)).whenInactive(new SlowOff(driveSubsystem));
-    driverA.whileHeld(switchBindings(drivers));
-  }
-
-  private void configureClimberBindings(JoystickButton[] drivers){
-    drivers[0].whileHeld(new climberAlign(color_sensor, driveSubsystem));
-  }
-
-  private void configureShooterBindings(JoystickButton[] drivers){
-    drivers[0].whileHeld(new SetShooterPower(shooter));
-    drivers[1].whileHeld(new Aimbot(limelight, driveSubsystem));
-  }
-
-  private void switchBindings(JoystickButton[] drivers){
-    if(isShooter){
-      configureClimberBindings(drivers);
-      isShooter = false;
-    }else{
-      configureShooterBindings(drivers);
-      isShooter = true;
-    }
+    driverA.whileHeld(new SwitchBindings(drivers, driveSubsystem, limelight));
   }
     // driverController
   
