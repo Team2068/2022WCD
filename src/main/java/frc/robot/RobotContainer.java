@@ -107,6 +107,7 @@ public class RobotContainer {
   private void setUpSmartDashboardCommands() {
     SmartDashboard.putData("Toggle Camera Mode", new ToggleCameraMode(limelight));
     SmartDashboard.putData("Toggle Stream Mode", new ToggleStreamMode(limelight));
+    SmartDashboard.putData("Toggle Pipeline", new SwitchPipeline(limelight));
   }
   
  
