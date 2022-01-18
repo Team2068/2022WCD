@@ -30,8 +30,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.commands.ToggleCameraMode;
 import frc.robot.commands.ToggleStreamMode;
-import frc.robot.subsystems.Pigeon;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.ShooterSubsystem;
 
 
 /**
@@ -49,7 +48,7 @@ public class RobotContainer {
 
   private final XboxController driverController = new XboxController(DriveConstants.driverController);
   private final XboxController mechanismController = new XboxController(DriveConstants.mechanismController);
-  private final Shooter shooter = new Shooter();
+  private final ShooterSubsystem shooter = new ShooterSubsystem();
 
   private SendableChooser<Command> autonomousChooser = new SendableChooser<Command>();
 
@@ -97,7 +96,6 @@ public class RobotContainer {
 
     driverRightTrigger.whenActive(new TurboOn(driveSubsystem)).whenInactive(new TurboOff(driveSubsystem));
     driverLeftTrigger.whenActive(new SlowOn(driveSubsystem)).whenInactive(new SlowOff(driveSubsystem));
-    driverY.whileHeld(new SetShooterPower(shooter));
     driverX.whileHeld(new Aimbot(limelight, driveSubsystem));
     driverB.whenPressed(new SwitchPipeline(limelight));
   }

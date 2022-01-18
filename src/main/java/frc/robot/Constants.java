@@ -15,6 +15,7 @@ package frc.robot;
 public final class Constants {
 
     public static final int CURRENT_LIMIT = 30;
+    public final static double ROBOT_HEIGHT = 0.0;//adjust
 
     public final static class DriveConstants {
         public static final int FRONT_LEFT = 4;
@@ -35,6 +36,13 @@ public final class Constants {
         public static final int LEFT_TRIGGER = 2;
         public static final double TRIGGER_ACTIVATION_THRESHOLD = .3;
     }
+
+    public final static class GameElementConstants {
+        public final static double UPPER_HUB = 2.64; //meters
+        public final static double LOWER_HUB = 1.04; //meters
+        public final static double HIGH_HEIGHT = UPPER_HUB - ROBOT_HEIGHT;
+        public final static double LOW_HEIGHT = LOWER_HUB - ROBOT_HEIGHT;
+      }
 
     public final static class LimelightConstants {
         public final static class LedMode {
@@ -66,8 +74,8 @@ public final class Constants {
     }
   
     public final static class ShooterConstants{
-        public static final int rightShooter = 3;
-        public static final int leftShooter = 6;
+        public final static int FLYWHEEL_1 = 8;
+        public final static int FLYWHEEL_2 = 9;
     }
 
     public final static class AimbotConstants {
