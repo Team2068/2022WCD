@@ -99,7 +99,7 @@ public class Limelight extends SubsystemBase {
     double a2 = targetData.verticalOffset;
     double a1 = LimelightConstants.LIMELIGHT_ANGLE;
     double h1 = LimelightConstants.LIMELIGHT_HEIGHT;
-    double h2 = 70; // height of the object that we are testing. change this for height of upper hub
+    double h2 = 104; // height of the object that we are testing. change this for height of upper hub
     
     double result = h2-h1; // this was giving problems when using a one liner, so we broke it up to debug
     double radians = Math.toRadians(a1+a2);
