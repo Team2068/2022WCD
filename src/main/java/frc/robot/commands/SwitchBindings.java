@@ -12,21 +12,23 @@ import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 
 public class SwitchBindings extends CommandBase {
-  private boolean isShooter;
+  private boolean isShooter = false;
   public JoystickButton[] drivers;
 
-  private ColorSensor color_sensor = new ColorSensor();
+  private ColorSensor color_sensor;
   private Shooter shooter = new Shooter();
   private DriveSubsystem driveSubsystem;
   private Limelight limelight;
 
 
   /** Creates a new SwitchBindings. */
-  public SwitchBindings(JoystickButton[] drivers, DriveSubsystem driveSubsystem, Limelight limelight) {
+  public SwitchBindings(JoystickButton[] drivers, ColorSensor color_sensor, DriveSubsystem driveSubsystem, Limelight limelight) {
     this.drivers = drivers;
+    this.color_sensor = color_sensor;
     this.driveSubsystem = driveSubsystem;
     this.limelight = limelight;
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(color_sensor, driveSubsystem, limelight);
   }
 
   // Called when the command is initially scheduled.
@@ -36,22 +38,16 @@ public class SwitchBindings extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(isShooter){
-      configureClimberBindings(drivers);
-      isShooter = false;
-    }else{
       configureShooterBindings(drivers);
-      isShooter = true;
-    }
   }
 
   private void configureClimberBindings(JoystickButton[] drivers){
-    drivers[0].whileHeld(new climberAlign(color_sensor, driveSubsystem));
   }
 
   private void configureShooterBindings(JoystickButton[] drivers){
     drivers[0].whileHeld(new SetShooterPower(shooter));
     drivers[1].whileHeld(new Aimbot(limelight, driveSubsystem));
+    drivers[2].whileHeld(new climberAlign(color_sensor, driveSubsystem));
   }
 
   // Called once the command ends or is interrupted.

@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import java.sql.Driver;
+
 import com.revrobotics.ColorMatchResult;
 
 import edu.wpi.first.wpilibj.util.Color;
@@ -13,48 +15,59 @@ import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class climberAlign extends CommandBase {
-  ColorSensor cSensor;
+  ColorSensor color_sensor;
   DriveSubsystem driveSubsystem;
-  
+
   /** Creates a new climberAlign. */
   public climberAlign(ColorSensor color_sensor, DriveSubsystem driveSubsystem) {
-    cSensor = color_sensor;
+    this.color_sensor = color_sensor;
     this.driveSubsystem = driveSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(cSensor);
+    addRequirements(color_sensor);
     addRequirements(driveSubsystem);
   }
+  private Color tapeBlack = new Color(0.266,0.479,0.253);
+  private Color carpetGrey = new Color(0.2697,0.48242,0.248);
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //If censor found
-    if(!cSensor.isConnected()){
+    // If censor found
+    if (!color_sensor.found()) {
       this.end(true);
     }
-    cSensor.color_matcher.addColorMatch(Color.kBlack);
+    color_sensor.color_matcher.addColorMatch(tapeBlack);
+    color_sensor.color_matcher.addColorMatch(carpetGrey);
+    color_sensor.color_matcher.addColorMatch(Color.kWhite);
+    color_sensor.color_matcher.addColorMatch(Color.kRed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double driveSpeed = 0.1;
-    Color detected_Color = cSensor.getColor();
-    ColorMatchResult match = cSensor.matchColorTo(detected_Color);
-    if(match.color == Color.kBlack){
-      //indicate or activate the climber
-      this.cancel();
-    }else{
-      driveSubsystem.tankDrive(-driveSpeed, driveSpeed);
+    double driveSpeed = 1;
+
+    Color detected_Color = color_sensor.getColor();
+    ColorMatchResult match = color_sensor.matchColorTo(detected_Color);
+
+    DriverStation.reportWarning("Detected: " + match.color.red + "," + match.color.green + "," + match.color.blue
+        + " with confidence: " + match.confidence, false);
+
+    if (match.color == tapeBlack && match.confidence >= 0.85) {
+      // indicate or activate the climber
+      DriverStation.reportWarning("Black", false);
+      this.end(false);
     }
-  }
+      DriverStation.reportWarning("Driving", false);
+      driveSubsystem.tankDrive(0.3, -0.3);
+    return;
+  } 
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if(interrupted){
-      //Display the that the sensor was not found
-      DriverStation.reportWarning("Color sensor not found.", false);
+    if (interrupted) {
+      DriverStation.reportWarning("Color Sensor not found.", true);
     }
   }
 

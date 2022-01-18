@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -14,13 +15,13 @@ import com.revrobotics.ColorSensorV3;
 
 public class ColorSensor extends SubsystemBase{
 
-  I2C.Port port = I2C.Port.kOnboard;  
-  /** Creates a new ColorSensor. */
-  public ColorSensor() {}
-
-  ColorSensorV3 sensor = new ColorSensorV3(port);
   public ColorMatch color_matcher = new ColorMatch();
+  public Color currentColor;
 
+  I2C.Port port = I2C.Port.kMXP; 
+
+  public ColorSensor() {}
+  ColorSensorV3 sensor = new ColorSensorV3(port);
 
   public Color getColor(){
     return sensor.getColor();
@@ -30,7 +31,17 @@ public class ColorSensor extends SubsystemBase{
     return color_matcher.matchClosestColor(currentColor);
   }
 
-  public boolean isConnected(){
+  public boolean found(){
     return sensor.isConnected();
+  }
+  
+  @Override
+  public void periodic(){
+    currentColor = getColor();
+    Double[] values = {currentColor.red, currentColor.green, currentColor.blue};
+    SmartDashboard.putNumber("Current Color (R): ", currentColor.red);
+    SmartDashboard.putNumber("Current Color (G): ", currentColor.green);
+    SmartDashboard.putNumber("Current Color (B): ", currentColor.blue);
+    SmartDashboard.putNumberArray("Color (RGB): ", values);
   }
 }

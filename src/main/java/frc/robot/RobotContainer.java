@@ -26,6 +26,8 @@ import frc.robot.commands.SwitchBindings;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.TurboOff;
 import frc.robot.commands.TurboOn;
+import frc.robot.commands.climberAlign;
+import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.commands.ToggleCameraMode;
@@ -43,6 +45,7 @@ import frc.robot.subsystems.Shooter;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Limelight limelight = new Limelight(LimelightConstants.LedMode.DEFAULT, LimelightConstants.CamMode.VISION);
+  private final ColorSensor color_sensor = new ColorSensor();
 
   private final DriveSubsystem driveSubsystem = new DriveSubsystem();
 
@@ -96,7 +99,8 @@ public class RobotContainer {
 
     driverRightTrigger.whenActive(new TurboOn(driveSubsystem)).whenInactive(new TurboOff(driveSubsystem));
     driverLeftTrigger.whenActive(new SlowOn(driveSubsystem)).whenInactive(new SlowOff(driveSubsystem));
-    driverA.whileHeld(new SwitchBindings(drivers, driveSubsystem, limelight));
+    driverB.whileHeld(new climberAlign(color_sensor, driveSubsystem));
+    driverA.whileHeld(new SwitchBindings(drivers, color_sensor, driveSubsystem, limelight));
   }
     // driverController
   
