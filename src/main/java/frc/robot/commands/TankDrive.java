@@ -37,7 +37,7 @@ public class TankDrive extends CommandBase {
     SmartDashboard.putNumber("Command Left", leftSpeed);
     SmartDashboard.putNumber("Command Right", rightSpeed);
 
-    driveSubsystem.tankDrive(leftSpeed, rightSpeed);
+    driveSubsystem.tankDrive(leftSpeed, -rightSpeed);
   }
 
   // Called once the command ends or is interrupted.
