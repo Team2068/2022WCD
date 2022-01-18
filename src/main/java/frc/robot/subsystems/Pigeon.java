@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -23,6 +24,9 @@ public class Pigeon extends SubsystemBase {
     _gyro.getGeneralStatus(genStatus);
   }
 
+  // Convert from fixed point notation to G's
+  final double fixedConstant = 16384;
+
   // Actual pigeon object
   PigeonIMU _gyro;
 
@@ -37,11 +41,11 @@ public class Pigeon extends SubsystemBase {
   private NetworkTableEntry gyroHeading = tab.add("Gyro heading", 0).getEntry();
   private NetworkTableEntry magnometer = tab.add("Magnometer", 0).getEntry();
   
+  double prevXAccel, prevYAccel = 0;
+
   @Override
   public void periodic() {
-    // Convert from fixed point notation to G's
-    final double fixedConstant = 16384;
-
+  
     // Raw Gyro yaw is basically the same as getting the fused heading, just with slightly more error
 
     double[] ypr = new double[3];
@@ -59,5 +63,25 @@ public class Pigeon extends SubsystemBase {
 
     gyroHeading.setDouble(_gyro.getFusedHeading());
     magnometer.setDouble(_gyro.getAbsoluteCompassHeading());
+
+    collisionDetection(fixedConstant);
+  }
+
+  public void collisionDetection (double fixedConstant) {
+    short[] accelerations = new short[3];
+    _gyro.getBiasedAccelerometer(accelerations);
+
+    double xAccel = accelerations[0] / fixedConstant;
+    double yAccel = accelerations[1] / fixedConstant;
+
+    double xJerk = (xAccel - prevXAccel)/.02;
+    double yJerk = (yAccel - prevYAccel)/.02;
+
+    prevXAccel = xAccel;
+    prevYAccel = yAccel;
+
+    if (xJerk >= 0.5 || yJerk >= 0.5) { //0.5 is just a placeholder number for now
+      DriverStation.reportWarning("Collision", false);
+    }
   }
 }
