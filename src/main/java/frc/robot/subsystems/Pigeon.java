@@ -31,13 +31,16 @@ public class Pigeon extends SubsystemBase {
 
   // Displaying Data to shuffleboard
   ShuffleboardTab tab = Shuffleboard.getTab("Gyro");
+  
   NetworkTableEntry accelYaw = tab.add("Accelerometer Yaw", 0).getEntry();
   NetworkTableEntry accelPitch = tab.add("Accelerometer Pitch", 0).getEntry();
   NetworkTableEntry accelRoll = tab.add("Accelerometer Roll", 0).getEntry();
+  
   NetworkTableEntry gyroYaw = tab.add("Gyro Yaw", 0).getEntry();
   NetworkTableEntry gyroPitch = tab.add("Gyro Pitch", 0).getEntry();
   NetworkTableEntry gyroRoll = tab.add("Gyro Roll", 0).getEntry();
   NetworkTableEntry gyroHeading = tab.add("Gyro heading", 0).getEntry();
+  
   NetworkTableEntry magnometer = tab.add("Magnometer", 0).getEntry();
   
   double prevXAccel, prevYAccel, prevZAccel = 0;
@@ -45,8 +48,6 @@ public class Pigeon extends SubsystemBase {
   @Override
   public void periodic() {
   
-    // Raw Gyro yaw is basically the same as getting the fused heading, just with slightly more error
-
     double[] ypr = getGyroYPR();
     short[] accel = getAccelerometerYPR();
 

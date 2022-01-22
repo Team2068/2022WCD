@@ -5,9 +5,9 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -21,7 +21,7 @@ public class ColorSensor extends SubsystemBase{
   public ColorMatch color_matcher = new ColorMatch();
   public Color currentColor;
 
-  I2C.Port port = I2C.Port.kOnboard; 
+  I2C.Port port = I2C.Port.kMXP; 
 
   public ColorSensor() {}
   ColorSensorV3 sensor = new ColorSensorV3(port);
@@ -38,14 +38,20 @@ public class ColorSensor extends SubsystemBase{
     return sensor.isConnected();
   }
 
+  ShuffleboardTab tab = Shuffleboard.getTab("Color Sensor");
+  
+  NetworkTableEntry red = tab.add("Red", 0).getEntry();
+  NetworkTableEntry blue = tab.add("Blue", 0).getEntry();
+  NetworkTableEntry green = tab.add("Green", 0).getEntry();
 
   @Override
   public void periodic(){
     currentColor = getColor();
-    Double[] values = {currentColor.red, currentColor.green, currentColor.blue};
-    SmartDashboard.putNumber("Current Color (R): ", currentColor.red);
-    SmartDashboard.putNumber("Current Color (G): ", currentColor.green);
-    SmartDashboard.putNumber("Current Color (B): ", currentColor.blue);
+    double[] values ={currentColor.blue, currentColor.red, currentColor.green};
     SmartDashboard.putNumberArray("Color (RGB): ", values);
+
+    red.setDouble(currentColor.red);
+    blue.setDouble(currentColor.blue);
+    green.setDouble(currentColor.green);
   }
 }

@@ -26,7 +26,6 @@ public class DriveSubsystem extends SubsystemBase {
 
     private boolean isForward = true;
     private double maxSpeed = DriveConstants.NORMAL_SPEED;
-    // private Pigeon pigeon = new Pigeon(0);
 
     public DriveSubsystem() {
         frontLeft.restoreFactoryDefaults();

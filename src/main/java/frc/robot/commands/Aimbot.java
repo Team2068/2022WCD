@@ -32,7 +32,7 @@ public class Aimbot extends CommandBase {
   }
 
   float Kp = -0.02f;
-  float min_command = 0.02f;
+  // float min_command = 0.02f;
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -42,9 +42,9 @@ public class Aimbot extends CommandBase {
     float heading = -distance;
     float steering_adjust = 0.0f;
     if (distance > 1.0) {
-      steering_adjust = Kp * heading - min_command;
+      steering_adjust = Kp * heading;
     } else if (distance < 1.0) {
-      steering_adjust = Kp * heading + min_command;
+      steering_adjust = Kp * heading;
     }
     // float to double comparison lol
     if (Math.abs(steering_adjust) < AimbotConstants.minimumAdjustment) {
