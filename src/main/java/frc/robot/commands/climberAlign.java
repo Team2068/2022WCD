@@ -33,19 +33,14 @@ public class climberAlign extends CommandBase {
   @Override
   public void initialize() {
     // If censor found
-    if (!color_sensor.found()) {
-      this.end(true);
-    }
     color_sensor.color_matcher.addColorMatch(tapeBlack);
     color_sensor.color_matcher.addColorMatch(carpetGrey);
-    color_sensor.color_matcher.addColorMatch(Color.kWhite);
-    color_sensor.color_matcher.addColorMatch(Color.kRed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double driveSpeed = 1;
+    double driveSpeed = -0.3;
 
     Color detected_Color = color_sensor.getColor();
     ColorMatchResult match = color_sensor.matchColorTo(detected_Color);
@@ -53,22 +48,20 @@ public class climberAlign extends CommandBase {
     DriverStation.reportWarning("Detected: " + match.color.red + "," + match.color.green + "," + match.color.blue
         + " with confidence: " + match.confidence, false);
 
-    if (match.color == tapeBlack && match.confidence >= 0.85) {
+    if (match.color == tapeBlack) {
       // indicate or activate the climber
       DriverStation.reportWarning("Black", false);
-      this.end(false);
-    }
+      this.cancel();
+    }else{
       DriverStation.reportWarning("Driving", false);
-      driveSubsystem.tankDrive(0.3, -0.3);
+      driveSubsystem.tankDrive(driveSpeed, -driveSpeed);
+    }
     return;
   } 
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if (interrupted) {
-      DriverStation.reportWarning("Color Sensor not found.", true);
-    }
   }
 
   // Returns true when the command should end.

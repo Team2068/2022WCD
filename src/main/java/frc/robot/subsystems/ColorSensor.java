@@ -18,7 +18,7 @@ public class ColorSensor extends SubsystemBase{
   public ColorMatch color_matcher = new ColorMatch();
   public Color currentColor;
 
-  I2C.Port port = I2C.Port.kMXP; 
+  I2C.Port port = I2C.Port.kOnboard; 
 
   public ColorSensor() {}
   ColorSensorV3 sensor = new ColorSensorV3(port);
