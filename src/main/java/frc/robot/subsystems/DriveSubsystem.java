@@ -1,12 +1,12 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 
@@ -16,13 +16,13 @@ public class DriveSubsystem extends SubsystemBase {
     private CANSparkMax backLeft = new CANSparkMax(DriveConstants.BACK_LEFT, MotorType.kBrushless);
     private CANSparkMax backRight = new CANSparkMax(DriveConstants.BACK_RIGHT, MotorType.kBrushless);
 
-    private SpeedControllerGroup leftMotors = new SpeedControllerGroup(frontLeft, backLeft);
-    private SpeedControllerGroup rightMotors = new SpeedControllerGroup(frontRight, backRight);
+    private MotorControllerGroup leftMotors = new MotorControllerGroup(frontLeft, backLeft);
+    private MotorControllerGroup rightMotors = new MotorControllerGroup(frontRight, backRight);
 
     private DifferentialDrive differentialDrive = new DifferentialDrive(leftMotors, rightMotors);
     
-    private CANEncoder leftEncoder;
-    private CANEncoder rightEncoder;
+    private RelativeEncoder leftEncoder;
+    private RelativeEncoder rightEncoder;
 
     private boolean isForward = true;
     private double maxSpeed = DriveConstants.NORMAL_SPEED;

@@ -25,13 +25,13 @@ import frc.robot.commands.SlowOn;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.TurboOff;
 import frc.robot.commands.TurboOn;
+import frc.robot.commands.climberAlign;
+import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.commands.ToggleCameraMode;
 import frc.robot.commands.ToggleStreamMode;
-import frc.robot.subsystems.Pigeon;
-import frc.robot.subsystems.Shooter;
-
+import frc.robot.subsystems.ShooterSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -42,15 +42,14 @@ import frc.robot.subsystems.Shooter;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final Limelight limelight = new Limelight(LimelightConstants.LedMode.DEFAULT, LimelightConstants.CamMode.VISION);
+  private final Limelight limelight = new Limelight(LimelightConstants.LedMode.DEFAULT,
+      LimelightConstants.CamMode.VISION);
+  private final ColorSensor color_sensor = new ColorSensor();
   private final Pigeon pigeon = new Pigeon(0);
-
   private final DriveSubsystem driveSubsystem = new DriveSubsystem();
-
   private final XboxController driverController = new XboxController(DriveConstants.driverController);
   private final XboxController mechanismController = new XboxController(DriveConstants.mechanismController);
-  private final Shooter shooter = new Shooter();
-
+  private final ShooterSubsystem shooter = new ShooterSubsystem();
   private SendableChooser<Command> autonomousChooser = new SendableChooser<Command>();
 
   /**
@@ -68,8 +67,6 @@ public class RobotContainer {
    * created by instantiating a {@link GenericHID} or one of its subclasses
    * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   * 
-   * 
    */
   private void configureButtonBindings() {
     Trigger driverRightTrigger = new Trigger(() -> driverController
@@ -78,18 +75,20 @@ public class RobotContainer {
         .getRawAxis(ControllerConstants.LEFT_TRIGGER) > ControllerConstants.TRIGGER_ACTIVATION_THRESHOLD);
     JoystickButton driverRightBumper = new JoystickButton(driverController, Button.kRightBumper.value);
     JoystickButton driverLeftBumper = new JoystickButton(driverController, Button.kLeftBumper.value);
-    
+
     JoystickButton driverY = new JoystickButton(driverController, Button.kY.value);
     JoystickButton driverX = new JoystickButton(driverController, Button.kX.value);
     JoystickButton driverB = new JoystickButton(driverController, Button.kB.value);
     JoystickButton driverA = new JoystickButton(driverController, Button.kA.value);
+    JoystickButton[] drivers = { driverY, driverX, driverB, driverA };
+
     Trigger mechanismRightTrigger = new Trigger(() -> mechanismController
         .getRawAxis(ControllerConstants.RIGHT_TRIGGER) > ControllerConstants.TRIGGER_ACTIVATION_THRESHOLD);
     Trigger mechanismLeftTrigger = new Trigger(() -> mechanismController
         .getRawAxis(ControllerConstants.LEFT_TRIGGER) > ControllerConstants.TRIGGER_ACTIVATION_THRESHOLD);
     JoystickButton mechanismLeftBumper = new JoystickButton(mechanismController, Button.kRightBumper.value);
     JoystickButton mechanismRightBumper = new JoystickButton(mechanismController, Button.kLeftBumper.value);
- 
+
     JoystickButton mechanismY = new JoystickButton(mechanismController, Button.kY.value);
     JoystickButton mechanismA = new JoystickButton(mechanismController, Button.kA.value);
     JoystickButton mechanismB = new JoystickButton(mechanismController, Button.kB.value);
@@ -97,18 +96,20 @@ public class RobotContainer {
 
     driverRightTrigger.whenActive(new TurboOn(driveSubsystem)).whenInactive(new TurboOff(driveSubsystem));
     driverLeftTrigger.whenActive(new SlowOn(driveSubsystem)).whenInactive(new SlowOff(driveSubsystem));
-    driverY.whileHeld(new SetShooterPower(shooter));
-    driverX.whileHeld(new Aimbot(limelight, driveSubsystem));
+    
+    // drivers[0] should do actual climbing
+    drivers[0].whileHeld(new SetShooterPower(shooter));
+    drivers[1].whileHeld(new Aimbot(limelight, driveSubsystem));
+    drivers[2].toggleWhenPressed(new climberAlign(color_sensor, driveSubsystem));
   }
-    // driverController
-  
-  //SmartDashboard Commands
+  // driverController
+
+  // SmartDashboard Commands
   private void setUpSmartDashboardCommands() {
     SmartDashboard.putData("Toggle Camera Mode", new ToggleCameraMode(limelight));
     SmartDashboard.putData("Toggle Stream Mode", new ToggleStreamMode(limelight));
   }
-  
- 
+
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *

@@ -5,7 +5,6 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
-
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -31,7 +30,7 @@ public class Pigeon extends SubsystemBase {
   PigeonIMU _gyro;
 
   // Displaying Data to shuffleboard
-  ShuffleboardTab tab = Shuffleboard.getTab("Sensors");
+  ShuffleboardTab tab = Shuffleboard.getTab("Gyro");
   NetworkTableEntry accelYaw = tab.add("Accelerometer Yaw", 0).getEntry();
   NetworkTableEntry accelPitch = tab.add("Accelerometer Pitch", 0).getEntry();
   NetworkTableEntry accelRoll = tab.add("Accelerometer Roll", 0).getEntry();
@@ -107,8 +106,5 @@ public class Pigeon extends SubsystemBase {
     if (Math.abs(xJerk) >= maxJerk) {
       DriverStation.reportWarning("Collision", false);
     }
-
-    // if(Math.abs(yJerk) >= maxJerk || Math.abs(zJerk) >= maxJerk){
-    // }
   }
 }
