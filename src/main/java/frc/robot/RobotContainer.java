@@ -31,7 +31,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.commands.ToggleCameraMode;
 import frc.robot.commands.ToggleStreamMode;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.ShooterSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -51,7 +51,7 @@ public class RobotContainer {
 
   private final XboxController driverController = new XboxController(DriveConstants.driverController);
   private final XboxController mechanismController = new XboxController(DriveConstants.mechanismController);
-
+  private final ShooterSubsystem shooter = new ShooterSubsystem();
   private SendableChooser<Command> autonomousChooser = new SendableChooser<Command>();
 
   /**
@@ -98,7 +98,7 @@ public class RobotContainer {
 
     driverRightTrigger.whenActive(new TurboOn(driveSubsystem)).whenInactive(new TurboOff(driveSubsystem));
     driverLeftTrigger.whenActive(new SlowOn(driveSubsystem)).whenInactive(new SlowOff(driveSubsystem));
-
+    
     // drivers[0] should do actual climbing
     drivers[0].whileHeld(new SetShooterPower(shooter));
     drivers[1].whileHeld(new Aimbot(limelight, driveSubsystem));
