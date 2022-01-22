@@ -32,6 +32,7 @@ import frc.robot.subsystems.Limelight;
 import frc.robot.commands.ToggleCameraMode;
 import frc.robot.commands.ToggleStreamMode;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.Pigeon;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
