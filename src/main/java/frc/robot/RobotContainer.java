@@ -45,10 +45,7 @@ public class RobotContainer {
   private final Limelight limelight = new Limelight(LimelightConstants.LedMode.DEFAULT,
       LimelightConstants.CamMode.VISION);
   private final ColorSensor color_sensor = new ColorSensor();
-  private Shooter shooter = new Shooter();
-
   private final DriveSubsystem driveSubsystem = new DriveSubsystem();
-
   private final XboxController driverController = new XboxController(DriveConstants.driverController);
   private final XboxController mechanismController = new XboxController(DriveConstants.mechanismController);
   private final ShooterSubsystem shooter = new ShooterSubsystem();
