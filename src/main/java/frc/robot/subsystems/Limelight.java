@@ -6,7 +6,10 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.LimelightConstants;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -68,6 +71,7 @@ public class Limelight extends SubsystemBase {
     SmartDashboard.putNumber("LimelightArea", area);
     SmartDashboard.putString("Stream Mode", stream);
     SmartDashboard.putString("Camera Mode", cam);
+    SmartDashboard.putNumber("Distance", getDistance());
     updateTargetData(table);
   }
 
@@ -86,6 +90,24 @@ public class Limelight extends SubsystemBase {
 
   public TargetData getTargetData() {
     return targetData;
+  }
+
+  // This works only for objects that are above or below the robot
+  // It's very inaccurate of objects that are same height as the robot
+  public double getDistance() {
+    TargetData targetData = getTargetData();
+    double a2 = targetData.verticalOffset;
+    double a1 = LimelightConstants.LIMELIGHT_ANGLE;
+    double h1 = LimelightConstants.LIMELIGHT_HEIGHT;
+    double h2 = 104; // height of the object that we are testing. change this for height of upper hub
+    
+    double result = h2-h1; // this was giving problems when using a one liner, so we broke it up to debug
+    double radians = Math.toRadians(a1+a2);
+    double distance = result / Math.tan(radians);
+
+    System.out.println("ty: " + a2 + " degree: " + (a2+a1) + " radians: " + radians + " dist (in): " + distance);
+    
+    return Math.abs(distance); // would return negative values if the angle was negative
   }
 
   public void setCameraMode(int newCameraMode) {

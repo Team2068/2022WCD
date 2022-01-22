@@ -20,7 +20,7 @@ public class DriveSubsystem extends SubsystemBase {
     private MotorControllerGroup rightMotors = new MotorControllerGroup(frontRight, backRight);
 
     private DifferentialDrive differentialDrive = new DifferentialDrive(leftMotors, rightMotors);
-    
+  
     private RelativeEncoder leftEncoder;
     private RelativeEncoder rightEncoder;
 
@@ -79,9 +79,17 @@ public class DriveSubsystem extends SubsystemBase {
         return speed;
     }
 
+    public double getLeftSpeed() {
+        return leftMotors.get();
+    }
+
+    public double getRightSpeed() {
+        return rightMotors.get();
+    }
+
     public void tankDrive(double leftSpeed, double rightSpeed) {
         leftSpeed = adjustSpeed(leftSpeed);
-        rightSpeed = adjustSpeed(rightSpeed);
+        rightSpeed = adjustSpeed(rightSpeed)*-1;
         differentialDrive.feed();
         differentialDrive.feedWatchdog();
         if (isForward) {

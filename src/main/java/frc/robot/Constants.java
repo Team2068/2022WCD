@@ -64,6 +64,13 @@ public final class Constants {
             public final static int NO_SNAPSHOT = 0;
             public final static int TWO_SNAPSHOTS = 1;
         }
+        public final static class Pipelines {
+            public final static int REFLECTIVE_TAPE = 0;
+            public final static int RED_BALLS = 1;
+            public final static int BLUE_BALLS = 2;
+        }
+        public final static double LIMELIGHT_HEIGHT = 29.5; // This is for testing, needs to be changed for actual robot
+        public final static double LIMELIGHT_ANGLE = 0;
     }
   
     public final static class ShooterConstants{
@@ -72,7 +79,7 @@ public final class Constants {
     }
 
     public final static class AimbotConstants {
-        public static final double maxSpeed = 0.2;
-        public static final double minimumAdjustment = 0.02; 
+        public static final double maxSpeed = 0.3;
+        public static final double minimumAdjustment = 0.001; 
     }
 }

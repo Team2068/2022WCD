@@ -22,6 +22,7 @@ import frc.robot.commands.InvertTankDrive;
 import frc.robot.commands.SetShooterPower;
 import frc.robot.commands.SlowOff;
 import frc.robot.commands.SlowOn;
+import frc.robot.commands.SwitchPipeline;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.TurboOff;
 import frc.robot.commands.TurboOn;
@@ -97,11 +98,12 @@ public class RobotContainer {
 
     driverRightTrigger.whenActive(new TurboOn(driveSubsystem)).whenInactive(new TurboOff(driveSubsystem));
     driverLeftTrigger.whenActive(new SlowOn(driveSubsystem)).whenInactive(new SlowOff(driveSubsystem));
-    
+
     // drivers[0] should do actual climbing
     drivers[0].whileHeld(new SetShooterPower(shooter));
     drivers[1].whileHeld(new Aimbot(limelight, driveSubsystem));
     drivers[2].toggleWhenPressed(new climberAlign(color_sensor, driveSubsystem));
+    drivers[3].whenPressed(new SwitchPipeline(limelight));
   }
   // driverController
 
@@ -109,6 +111,7 @@ public class RobotContainer {
   private void setUpSmartDashboardCommands() {
     SmartDashboard.putData("Toggle Camera Mode", new ToggleCameraMode(limelight));
     SmartDashboard.putData("Toggle Stream Mode", new ToggleStreamMode(limelight));
+    SmartDashboard.putData("Toggle Pipeline", new SwitchPipeline(limelight));
   }
 
   /**
