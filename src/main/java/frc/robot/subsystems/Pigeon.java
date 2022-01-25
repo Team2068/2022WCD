@@ -90,7 +90,7 @@ public class Pigeon extends SubsystemBase {
 
   public void collisionDetection (double fixedConstant, short[] accelerations) {
     // Placeholder 0.5 value
-    double maxJerk = 1.3;
+    double maxJerk = 1.5;
 
     double xAccel = accelerations[0] / fixedConstant;
     // double yAccel = accelerations[1] / fixedConstant;
