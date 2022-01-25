@@ -8,7 +8,6 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.AimbotConstants;
 import frc.robot.subsystems.DriveSubsystem;
@@ -39,8 +38,8 @@ public class Aimbot extends CommandBase {
   @Override
   public void initialize() {}
 
-  float Kp = -0.04f;
-  float min_command = 0.02f;
+  float Kp = -0.02f;
+  float min_command = 0f;
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -49,21 +48,17 @@ public class Aimbot extends CommandBase {
     float distance = (float) data.horizontalOffset;
     float heading = -distance;
     float steering_adjust = 0.0f;
+
     if (distance > 1.0) {
-      steering_adjust = (Kp * heading);
+      steering_adjust = (Kp * heading) - min_command;
     } else if (distance < 1.0) {
-      steering_adjust = (Kp * heading);
+      steering_adjust = (Kp * heading) + min_command;
     }
     // float to double comparison lol
     if (Math.abs(steering_adjust) < AimbotConstants.minimumAdjustment) {
       DriverStation.reportWarning("Steering adjustment too low, Minimum: " + AimbotConstants.minimumAdjustment + " Value: " + steering_adjust, false);
       this.cancel(); // Too little adjustment is just straight
     } else {
-      // SmartDashboard.putNumber("Adjustment", steering_adjust);
-      // SmartDashboard.putNumber("Distance", distance);
-      // SmartDashboard.putNumber("Left Speed", driveSubsystem.getLeftSpeed() - steering_adjust);
-      // SmartDashboard.putNumber("Right Speed", driveSubsystem.getRightSpeed() + steering_adjust);
-
       adjustmentEntry.setDouble(steering_adjust);
       distanceEntry.setDouble(distance);
       speedLeftEntry.setDouble(driveSubsystem.getLeftSpeed() - steering_adjust);

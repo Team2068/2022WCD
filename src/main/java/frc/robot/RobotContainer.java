@@ -101,7 +101,7 @@ public class RobotContainer {
 
     // drivers[0] should do actual climbing
     drivers[0].whileHeld(new SetShooterPower(shooter));
-    drivers[1].whileHeld(new Aimbot(limelight, driveSubsystem));
+    drivers[1].toggleWhenPressed(new Aimbot(limelight, driveSubsystem));
     drivers[2].toggleWhenPressed(new climberAlign(color_sensor, driveSubsystem));
     drivers[3].whenPressed(new SwitchPipeline(limelight));
   }
