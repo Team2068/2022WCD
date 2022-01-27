@@ -162,6 +162,7 @@ public class DriveSubsystem extends SubsystemBase {
         leftMotors.setVoltage(leftVolts);
         rightMotors.setVoltage(rightVolts);
         differentialDrive.feed();
+        differentialDrive.feedWatchdog();
     }
 
     public double getAverageEncoderDistance(){

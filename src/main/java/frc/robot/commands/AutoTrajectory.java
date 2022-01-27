@@ -17,6 +17,7 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc.robot.Constants.TrajectoryConstants;
@@ -43,6 +44,8 @@ public class AutoTrajectory extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    DriverStation.reportWarning("Trajectory started", false);
+    
     var autoVoltageConstraint =
     new DifferentialDriveVoltageConstraint(
       new SimpleMotorFeedforward(TrajectoryConstants.ksVolts, TrajectoryConstants.kvVoltSecondsPerMeter, TrajectoryConstants.kaVoltSecondsSquaredPerMeter),
@@ -80,6 +83,7 @@ public class AutoTrajectory extends CommandBase {
         driveSubsystem
       );
 
+    DriverStation.reportWarning("Trajectory blue", false);
       ramseteCommand.andThen(() -> driveSubsystem.tankDriveVolts(0,0));
   }
 

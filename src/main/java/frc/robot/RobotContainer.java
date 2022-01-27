@@ -17,6 +17,7 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
@@ -60,7 +61,6 @@ public class RobotContainer {
   private final Limelight limelight = new Limelight(LimelightConstants.LedMode.DEFAULT,
       LimelightConstants.CamMode.VISION);
   private final ColorSensor color_sensor = new ColorSensor();
-  private final Pigeon pigeon = new Pigeon(0);
   private final DriveSubsystem driveSubsystem = new DriveSubsystem();
   private final XboxController driverController = new XboxController(DriveConstants.driverController);
   private final XboxController mechanismController = new XboxController(DriveConstants.mechanismController);
@@ -140,9 +140,51 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    AutoTrajectory command = new AutoTrajectory(driveSubsystem);
+    // AutoTrajectory command = new AutoTrajectory(driveSubsystem);
+    // return command;
 
-    return command;
+    DriverStation.reportWarning("Trajectory started", false);
+    
+    var autoVoltageConstraint =
+    new DifferentialDriveVoltageConstraint(
+      new SimpleMotorFeedforward(TrajectoryConstants.ksVolts, TrajectoryConstants.kvVoltSecondsPerMeter, TrajectoryConstants.kaVoltSecondsSquaredPerMeter),
+    kDriveKinematics,
+    10);
+
+    TrajectoryConfig config =
+    new TrajectoryConfig(TrajectoryConstants.kMaxSpeedMetersPerSecond, TrajectoryConstants.kMaxAccelerationMetersPerSecondSquared)
+    .setKinematics(kDriveKinematics)
+    .addConstraint(autoVoltageConstraint);
+
+    Trajectory testTrajectory = TrajectoryGenerator.generateTrajectory(
+      new Pose2d(0, 0, new Rotation2d(0)),
+       List.of(
+         new Translation2d(1, 1),
+         new Translation2d(2, -1)
+       ),
+       new Pose2d(3, 0, new Rotation2d(0)),
+        config);
+
+      driveSubsystem.resetOdometry(testTrajectory.getInitialPose());
+
+      RamseteCommand ramseteCommand = new RamseteCommand(
+        testTrajectory,
+        driveSubsystem::getPose,
+        new RamseteController(TrajectoryConstants.kRamseteB, TrajectoryConstants.kRamseteZeta),
+        new SimpleMotorFeedforward(TrajectoryConstants.ksVolts, 
+        TrajectoryConstants.kvVoltSecondsPerMeter,
+        TrajectoryConstants.kaVoltSecondsSquaredPerMeter),
+        kDriveKinematics,
+        driveSubsystem::getSpeeds,
+        new PIDController(TrajectoryConstants.kPDriveVel, 0, 0),
+        new PIDController(TrajectoryConstants.kPDriveVel, 0, 0),
+        driveSubsystem::tankDriveVolts,
+        driveSubsystem
+      );
+
+    DriverStation.reportWarning("Trajectory blue", false);
+    return ramseteCommand.andThen(() -> driveSubsystem.tankDriveVolts(0,0));
+
     // An ExampleCommand will run in autonomous
     // return autonomousChooser.getSelected();
   }

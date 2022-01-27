@@ -48,7 +48,7 @@ public class Pigeon extends SubsystemBase {
   
     // Raw Gyro yaw is basically the same as getting the fused heading, just with slightly more error
 
-    double[] ypr = getGyroYPR();
+    // double[] ypr = getGyroYPR();
     short[] accel = getAccelerometerYPR();
 
     // gyroYaw.setDouble(ypr[0]);

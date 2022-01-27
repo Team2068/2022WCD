@@ -99,7 +99,7 @@ public final class Constants {
         public static final double kaVoltSecondsSquaredPerMeter = 0.098652;
 
         // Note: this is from the old run of trajectory
-        public static final double kPDriveVel = 2.16;
+        public static final double kPDriveVel = 0.3;
 
         // Ramset constants
         public static final double kRamseteB = 2;
