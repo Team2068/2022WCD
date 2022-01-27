@@ -4,21 +4,34 @@
 
 package frc.robot;
 
+import java.util.List;
+
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.RamseteController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.LimelightConstants;
+import frc.robot.Constants.TrajectoryConstants;
 import frc.robot.commands.Aimbot;
-import frc.robot.commands.InvertTankDrive;
+import frc.robot.commands.AutoTrajectory;
 import frc.robot.commands.SetShooterPower;
 import frc.robot.commands.SlowOff;
 import frc.robot.commands.SlowOn;
@@ -52,6 +65,10 @@ public class RobotContainer {
   private final XboxController driverController = new XboxController(DriveConstants.driverController);
   private final XboxController mechanismController = new XboxController(DriveConstants.mechanismController);
   private final ShooterSubsystem shooter = new ShooterSubsystem();
+
+  private final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
+      TrajectoryConstants.kTrackWidth);
+
   private SendableChooser<Command> autonomousChooser = new SendableChooser<Command>();
 
   /**
@@ -105,7 +122,6 @@ public class RobotContainer {
     drivers[2].toggleWhenPressed(new climberAlign(color_sensor, driveSubsystem));
     drivers[3].whenPressed(new SwitchPipeline(limelight));
   }
-  // driverController
 
   // SmartDashboard Commands
   private void setUpSmartDashboardCommands() {
@@ -116,13 +132,18 @@ public class RobotContainer {
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
+   * 
+   * @param List
    *
    * 
    * 
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    AutoTrajectory command = new AutoTrajectory(driveSubsystem);
+
+    return command;
     // An ExampleCommand will run in autonomous
-    return autonomousChooser.getSelected();
+    // return autonomousChooser.getSelected();
   }
 }

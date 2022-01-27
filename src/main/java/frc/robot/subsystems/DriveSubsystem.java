@@ -5,6 +5,11 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import frc.robot.Constants;
@@ -20,13 +25,14 @@ public class DriveSubsystem extends SubsystemBase {
     private MotorControllerGroup rightMotors = new MotorControllerGroup(frontRight, backRight);
 
     private DifferentialDrive differentialDrive = new DifferentialDrive(leftMotors, rightMotors);
+    private DifferentialDriveOdometry odometry;
   
     private RelativeEncoder leftEncoder;
     private RelativeEncoder rightEncoder;
 
     private boolean isForward = true;
     private double maxSpeed = DriveConstants.NORMAL_SPEED;
-    // private Pigeon pigeon = new Pigeon(0);
+    private Pigeon pigeon = new Pigeon(0);
 
     public DriveSubsystem() {
         frontLeft.restoreFactoryDefaults();
@@ -44,13 +50,11 @@ public class DriveSubsystem extends SubsystemBase {
         backLeft.setIdleMode(IdleMode.kBrake);
         backRight.setIdleMode(IdleMode.kBrake);
 
-        leftEncoder = frontLeft.getEncoder();
-        rightEncoder = frontRight.getEncoder();
-
-        leftEncoder.setPosition(0);
-        rightEncoder.setPosition(0);
+        resetDriveEncoders();
 
         differentialDrive.setDeadband(0.1);
+
+        odometry = new DifferentialDriveOdometry(getHeading(false));
     }
 
     public void turboOn() {
@@ -101,8 +105,12 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public void resetDriveEncoders() {
+        leftEncoder = frontLeft.getEncoder();
+        rightEncoder = frontRight.getEncoder();
+
         leftEncoder.setPosition(0);
         rightEncoder.setPosition(0);
+
     }
 
     public void stopDrive() {
@@ -121,7 +129,51 @@ public class DriveSubsystem extends SubsystemBase {
         differentialDrive.arcadeDrive(xSpeed, zRotation);
     }
 
+    public void resetHeading(){
+        pigeon.resetHeading();
+    }
+
+    public Rotation2d getHeading(boolean inverted){
+        return Rotation2d.fromDegrees(pigeon.getHeading(inverted));
+    }
+
+    public Pose2d getPose(){
+        return odometry.getPoseMeters();
+    }
+
+    public double getLeftDistance() {
+        return leftEncoder.getPosition() / 7.2 * Math.PI * Units.inchesToMeters(5);
+    }
+
+    public double getRightDistance() {
+        return rightEncoder.getPosition() / 7.2 * Math.PI * Units.inchesToMeters(5);
+    }
+
+    public DifferentialDriveWheelSpeeds getSpeeds() {
+        return new DifferentialDriveWheelSpeeds(getLeftDistance(), getRightDistance());
+    }
+
+    public void resetOdometry(Pose2d pose){
+        resetDriveEncoders();
+        odometry.resetPosition(pose, getHeading(false));
+    }
+
+    public void tankDriveVolts(double leftVolts, double rightVolts){
+        leftMotors.setVoltage(leftVolts);
+        rightMotors.setVoltage(rightVolts);
+        differentialDrive.feed();
+    }
+
+    public double getAverageEncoderDistance(){
+        return (getLeftDistance() + getRightDistance()) / 2.0;
+    }
+
+    public void setMaxOutput(double maxOutput){
+        differentialDrive.setMaxOutput(maxOutput);
+    }
+
     @Override
     public void periodic() {
+        odometry.update(getHeading(false), getLeftSpeed(), getRightSpeed());
     }
 }

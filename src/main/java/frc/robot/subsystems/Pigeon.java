@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
+
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -30,15 +31,15 @@ public class Pigeon extends SubsystemBase {
   PigeonIMU _gyro;
 
   // Displaying Data to shuffleboard
-  ShuffleboardTab tab = Shuffleboard.getTab("Gyro");
-  NetworkTableEntry accelYaw = tab.add("Accelerometer Yaw", 0).getEntry();
-  NetworkTableEntry accelPitch = tab.add("Accelerometer Pitch", 0).getEntry();
-  NetworkTableEntry accelRoll = tab.add("Accelerometer Roll", 0).getEntry();
-  NetworkTableEntry gyroYaw = tab.add("Gyro Yaw", 0).getEntry();
-  NetworkTableEntry gyroPitch = tab.add("Gyro Pitch", 0).getEntry();
-  NetworkTableEntry gyroRoll = tab.add("Gyro Roll", 0).getEntry();
-  NetworkTableEntry gyroHeading = tab.add("Gyro heading", 0).getEntry();
-  NetworkTableEntry magnometer = tab.add("Magnometer", 0).getEntry();
+  // ShuffleboardTab tab = Shuffleboard.getTab("Gyro");
+  // NetworkTableEntry accelYaw = tab.add("Accelerometer Yaw", 0).getEntry();
+  // NetworkTableEntry accelPitch = tab.add("Accelerometer Pitch", 0).getEntry();
+  // NetworkTableEntry accelRoll = tab.add("Accelerometer Roll", 0).getEntry();
+  // NetworkTableEntry gyroYaw = tab.add("Gyro Yaw", 0).getEntry();
+  // NetworkTableEntry gyroPitch = tab.add("Gyro Pitch", 0).getEntry();
+  // NetworkTableEntry gyroRoll = tab.add("Gyro Roll", 0).getEntry();
+  // NetworkTableEntry gyroHeading = tab.add("Gyro heading", 0).getEntry();
+  // NetworkTableEntry magnometer = tab.add("Magnometer", 0).getEntry();
   
   double prevXAccel, prevYAccel, prevZAccel = 0;
 
@@ -50,16 +51,16 @@ public class Pigeon extends SubsystemBase {
     double[] ypr = getGyroYPR();
     short[] accel = getAccelerometerYPR();
 
-    gyroYaw.setDouble(ypr[0]);
-    gyroPitch.setDouble(ypr[1]);
-    gyroRoll.setDouble(ypr[2]);
+    // gyroYaw.setDouble(ypr[0]);
+    // gyroPitch.setDouble(ypr[1]);
+    // gyroRoll.setDouble(ypr[2]);
 
-    accelYaw.setDouble(accel[0] / fixedConstant);
-    accelPitch.setDouble(accel[1] / fixedConstant);
-    accelRoll.setDouble(accel[2] / fixedConstant);
+    // accelYaw.setDouble(accel[0] / fixedConstant);
+    // accelPitch.setDouble(accel[1] / fixedConstant);
+    // accelRoll.setDouble(accel[2] / fixedConstant);
 
-    gyroHeading.setDouble(getHeading(false));
-    magnometer.setDouble(getAbsoluteHeading());
+    // gyroHeading.setDouble(getHeading(false));
+    // magnometer.setDouble(getAbsoluteHeading());
 
     collisionDetection(fixedConstant, accel);
   }
@@ -69,6 +70,10 @@ public class Pigeon extends SubsystemBase {
       return _gyro.getFusedHeading() * -1;
     }
     return _gyro.getFusedHeading();
+  }
+
+  public void resetHeading(){
+    _gyro.setFusedHeading(0);
   }
 
   public double getAbsoluteHeading(){
@@ -88,7 +93,6 @@ public class Pigeon extends SubsystemBase {
   }
 
   public void collisionDetection (double fixedConstant, short[] accelerations) {
-    // Placeholder 0.5 value
     double maxJerk = 1.3;
 
     double xAccel = accelerations[0] / fixedConstant;
