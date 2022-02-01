@@ -3,10 +3,6 @@ package frc.robot.sensors;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
 
-// Largely inspired by: https://github.com/garmin/LIDARLite_Arduino_Library/blob/master/src/LIDARLite.cpp
-// We may need to make our own read function, to deal with the busy flag. Hasn't been tested yet.
-// This is the actual SENSOR that does lower level things. I don't want this to be something that's mutable like a subsystems
-
 public class Lidar {
     public enum LidarConfiguration {
         DEFAULT, // Default mode, balanced performance
