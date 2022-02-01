@@ -27,6 +27,7 @@ import frc.robot.commands.TankDrive;
 import frc.robot.commands.TurboOff;
 import frc.robot.commands.TurboOn;
 import frc.robot.commands.climberAlign;
+import frc.robot.sensors.Lidar.LidarConfiguration;
 import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LidarSubsystem;
@@ -53,7 +54,7 @@ public class RobotContainer {
   private final XboxController driverController = new XboxController(DriveConstants.driverController);
   private final XboxController mechanismController = new XboxController(DriveConstants.mechanismController);
   private final ShooterSubsystem shooter = new ShooterSubsystem();
-  private final LidarSubsystem lidar = new LidarSubsystem();
+  private final LidarSubsystem lidar = new LidarSubsystem(LidarConfiguration.MAXIMUM_RANGE);
   private SendableChooser<Command> autonomousChooser = new SendableChooser<Command>();
 
   /**

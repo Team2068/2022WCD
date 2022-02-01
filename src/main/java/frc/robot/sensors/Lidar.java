@@ -3,21 +3,23 @@ package frc.robot.sensors;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
 
-enum LidarConfiguration {
-    DEFAULT, // Default mode, balanced performance
-    SHORT_RANGE, // Short range, high speed
-    DEFAULT_HIGH_SPEED, // Default range, higher speed short range
-    MAXIMUM_RANGE, // Maximum range
-    HIGH_SENSITIVE, // High sensitivity detection, high erroneous measurements
-    LOW_SENSITIVE // Low sensitivity detection, low erroneous measurements
-}
-
 // Largely inspired by: https://github.com/garmin/LIDARLite_Arduino_Library/blob/master/src/LIDARLite.cpp
 // We may need to make our own read function, to deal with the busy flag. Hasn't been tested yet.
 // This is the actual SENSOR that does lower level things. I don't want this to be something that's mutable like a subsystems
 
 public class Lidar {
-    I2C _lidar = new I2C(Port.kMXP, 0x62);
+    public enum LidarConfiguration {
+        DEFAULT, // Default mode, balanced performance
+        SHORT_RANGE, // Short range, high speed
+        DEFAULT_HIGH_SPEED, // Default range, higher speed short range
+        MAXIMUM_RANGE, // Maximum range
+        HIGH_SENSITIVE, // High sensitivity detection, high erroneous measurements
+        LOW_SENSITIVE // Low sensitivity detection, low erroneous measurements
+    }
+
+    private I2C _lidar = new I2C(Port.kMXP, 0x62);
+
+    private LidarConfiguration config = null;
 
     public Lidar(LidarConfiguration configuration) {
         changeMode(configuration);
@@ -28,6 +30,7 @@ public class Lidar {
     }
 
     public void changeMode(LidarConfiguration configuration) {
+        config = configuration;
         switch (configuration) {
             case DEFAULT: // Default mode, balanced performance
                 _lidar.write(0x02, 0x80); // Default
@@ -67,6 +70,7 @@ public class Lidar {
         }
     }
 
+    // Returns the distance to the object in centimeters
     public double getDistance(boolean biasCorrection) {
         if (biasCorrection) {
             _lidar.write(0x00, 0x04);
@@ -87,4 +91,7 @@ public class Lidar {
         _lidar.write(0x00, 0x00);
     }
 
+    public LidarConfiguration getCurrentConfiguration() {
+        return config;
+    }
 }
