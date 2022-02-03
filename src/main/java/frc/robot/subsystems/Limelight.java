@@ -7,9 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.LimelightConstants;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -105,7 +103,7 @@ public class Limelight extends SubsystemBase {
     double radians = Math.toRadians(a1+a2);
     double distance = result / Math.tan(radians);
 
-    System.out.println("ty: " + a2 + " degree: " + (a2+a1) + " radians: " + radians + " dist (in): " + distance);
+    //System.out.println("ty: " + a2 + " degree: " + (a2+a1) + " radians: " + radians + " dist (in): " + distance);
     
     return Math.abs(distance); // would return negative values if the angle was negative
   }
