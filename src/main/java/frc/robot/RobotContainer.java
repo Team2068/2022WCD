@@ -22,12 +22,12 @@ import frc.robot.commands.InvertTankDrive;
 import frc.robot.commands.SetShooterPower;
 import frc.robot.commands.SlowOff;
 import frc.robot.commands.SlowOn;
+import frc.robot.commands.SwitchLidarMode;
 import frc.robot.commands.SwitchPipeline;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.TurboOff;
 import frc.robot.commands.TurboOn;
 import frc.robot.commands.climberAlign;
-import frc.robot.sensors.Lidar.LidarConfiguration;
 import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LidarSubsystem;
@@ -35,6 +35,7 @@ import frc.robot.subsystems.Limelight;
 import frc.robot.commands.ToggleCameraMode;
 import frc.robot.commands.ToggleStreamMode;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.LidarSubsystem.LidarConfiguration;
 import frc.robot.subsystems.Pigeon;
 
 /**
@@ -54,7 +55,7 @@ public class RobotContainer {
   private final XboxController driverController = new XboxController(DriveConstants.driverController);
   private final XboxController mechanismController = new XboxController(DriveConstants.mechanismController);
   private final ShooterSubsystem shooter = new ShooterSubsystem();
-  private final LidarSubsystem lidar = new LidarSubsystem(LidarConfiguration.MAXIMUM_RANGE);
+  private final LidarSubsystem lidar = new LidarSubsystem(LidarConfiguration.DEFAULT);
   private SendableChooser<Command> autonomousChooser = new SendableChooser<Command>();
 
   /**
@@ -115,6 +116,7 @@ public class RobotContainer {
     SmartDashboard.putData("Toggle Camera Mode", new ToggleCameraMode(limelight));
     SmartDashboard.putData("Toggle Stream Mode", new ToggleStreamMode(limelight));
     SmartDashboard.putData("Toggle Pipeline", new SwitchPipeline(limelight));
+    SmartDashboard.putData("Toggle Lidar Mode", new SwitchLidarMode(lidar));
   }
 
   /**
