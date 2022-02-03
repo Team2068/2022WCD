@@ -10,6 +10,8 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import frc.robot.Constants;
@@ -32,7 +34,8 @@ public class DriveSubsystem extends SubsystemBase {
 
     private boolean isForward = true;
     private double maxSpeed = DriveConstants.NORMAL_SPEED;
-    private Pigeon pigeon = new Pigeon(0);
+    // private Pigeon pigeon = new Pigeon(0);
+    private ADXRS450_Gyro gyro = new ADXRS450_Gyro(Port.kOnboardCS0);
 
     public DriveSubsystem() {
         frontLeft.restoreFactoryDefaults();
@@ -130,11 +133,13 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public void resetHeading(){
-        pigeon.resetHeading();
+        // pigeon.resetHeading();
+        gyro.reset();
     }
 
     public Rotation2d getHeading(boolean inverted){
-        return Rotation2d.fromDegrees(pigeon.getHeading(inverted));
+        // return Rotation2d.fromDegrees(pigeon.getHeading(inverted));
+        return Rotation2d.fromDegrees(gyro.getAngle());
     }
 
     public Pose2d getPose(){

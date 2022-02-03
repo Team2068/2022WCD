@@ -32,7 +32,6 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.LimelightConstants;
 import frc.robot.Constants.TrajectoryConstants;
 import frc.robot.commands.Aimbot;
-import frc.robot.commands.AutoTrajectory;
 import frc.robot.commands.SetShooterPower;
 import frc.robot.commands.SlowOff;
 import frc.robot.commands.SlowOn;
@@ -47,7 +46,6 @@ import frc.robot.subsystems.Limelight;
 import frc.robot.commands.ToggleCameraMode;
 import frc.robot.commands.ToggleStreamMode;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.Pigeon;
 
 /**
  * This class is where the bulk of the robot should be declared. Since

@@ -94,12 +94,12 @@ public final class Constants {
     }
 
     public final static class TrajectoryConstants {
-        public static final double ksVolts = 0.16439;
+        public static final double ksVolts = 0.16947;
         public static final double kvVoltSecondsPerMeter = 0.91178;
         public static final double kaVoltSecondsSquaredPerMeter = 0.098652;
 
         // Note: this is from the old run of trajectory
-        public static final double kPDriveVel = 0.3;
+        public static final double kPDriveVel = 2.2971;
 
         // Ramset constants
         public static final double kRamseteB = 2;

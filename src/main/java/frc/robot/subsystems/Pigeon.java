@@ -6,10 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
 
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Pigeon extends SubsystemBase {
@@ -17,6 +14,7 @@ public class Pigeon extends SubsystemBase {
 
   // Making this a separate subsystem for now
   // In the future this may be used for more than just the drivesubsystem?
+
 
   public Pigeon(int canId) {
     _gyro = new PigeonIMU(canId);
@@ -41,7 +39,7 @@ public class Pigeon extends SubsystemBase {
   // NetworkTableEntry gyroHeading = tab.add("Gyro heading", 0).getEntry();
   // NetworkTableEntry magnometer = tab.add("Magnometer", 0).getEntry();
   
-  double prevXAccel, prevYAccel, prevZAccel = 0;
+  double prevXAccel = 0;
 
   @Override
   public void periodic() {
