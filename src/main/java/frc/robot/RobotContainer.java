@@ -10,13 +10,12 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.LimelightConstants;
+
 import frc.robot.commands.Aimbot;
 import frc.robot.commands.InvertTankDrive;
 import frc.robot.commands.SetShooterPower;
@@ -28,15 +27,15 @@ import frc.robot.commands.TankDrive;
 import frc.robot.commands.TurboOff;
 import frc.robot.commands.TurboOn;
 import frc.robot.commands.climberAlign;
+
 import frc.robot.sensors.Lidar.LidarConfiguration;
 import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LidarSubsystem;
 import frc.robot.subsystems.Limelight;
-import frc.robot.commands.ToggleCameraMode;
-import frc.robot.commands.ToggleStreamMode;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.Pigeon;
+import frc.robot.commands.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -54,7 +53,7 @@ public class RobotContainer {
   private final DriveSubsystem driveSubsystem = new DriveSubsystem();
   private final XboxController driverController = new XboxController(DriveConstants.driverController);
   private final XboxController mechanismController = new XboxController(DriveConstants.mechanismController);
-  private final ShooterSubsystem shooter = new ShooterSubsystem();
+  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   private final LidarSubsystem lidar = new LidarSubsystem(LidarConfiguration.MAXIMUM_RANGE);
   private SendableChooser<Command> autonomousChooser = new SendableChooser<Command>();
 
@@ -103,13 +102,17 @@ public class RobotContainer {
     driverRightTrigger.whenActive(new TurboOn(driveSubsystem)).whenInactive(new TurboOff(driveSubsystem));
     driverLeftTrigger.whenActive(new SlowOn(driveSubsystem)).whenInactive(new SlowOff(driveSubsystem));
 
-    // drivers[0] should do actual climbing
-    //drivers[0].whileHeld(new SetShooterPower(shooter));
+    // drivers[0].whileHeld(new SetShooterPower(shooterSubsystem));
     drivers[1].whileHeld(new Aimbot(limelight, driveSubsystem));
     drivers[2].toggleWhenPressed(new climberAlign(color_sensor, driveSubsystem));
     drivers[3].whenPressed(new SwitchPipeline(limelight));
 
-    driverY.toggleWhenPressed(new ShootCalculatedSpeed(limelight, shooter));
+    driverY.whileHeld(new ShootCalculatedSpeed(limelight, shooterSubsystem));
+
+    //shooter
+    // mechanismX.whileHeld(new SetShooterPower(shooterSubsystem));
+    mechanismA.whenPressed(new Shoot(shooterSubsystem, .6));
+    mechanismB.whenPressed(new ShooterOff(shooterSubsystem));
   }
   // driverController
 

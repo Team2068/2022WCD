@@ -28,7 +28,7 @@ public final class Constants {
         public static final int TURBO_SPEED = 1;
 
         public static final int driverController = 0;
-		    public static int mechanismController;
+		public static int mechanismController = 1;
 		    public static int tankDrive;
     }
     public final static class ControllerConstants {

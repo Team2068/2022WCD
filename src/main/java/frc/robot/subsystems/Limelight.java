@@ -106,7 +106,7 @@ public class Limelight extends SubsystemBase {
     double distance = result / Math.tan(radians);
 
     // System.out.println("ty: " + a2 + " degree: " + (a2+a1) + " radians: " + radians + " dist (in): " + distance);
-    
+
     return Math.abs(distance); // would return negative values if the angle was negative
   }
 
