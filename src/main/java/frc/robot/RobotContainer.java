@@ -20,6 +20,7 @@ import frc.robot.Constants.LimelightConstants;
 import frc.robot.commands.Aimbot;
 import frc.robot.commands.InvertTankDrive;
 import frc.robot.commands.SetShooterPower;
+import frc.robot.commands.ShootCalculatedSpeed;
 import frc.robot.commands.SlowOff;
 import frc.robot.commands.SlowOn;
 import frc.robot.commands.SwitchPipeline;
@@ -103,10 +104,12 @@ public class RobotContainer {
     driverLeftTrigger.whenActive(new SlowOn(driveSubsystem)).whenInactive(new SlowOff(driveSubsystem));
 
     // drivers[0] should do actual climbing
-    drivers[0].whileHeld(new SetShooterPower(shooter));
+    //drivers[0].whileHeld(new SetShooterPower(shooter));
     drivers[1].whileHeld(new Aimbot(limelight, driveSubsystem));
     drivers[2].toggleWhenPressed(new climberAlign(color_sensor, driveSubsystem));
     drivers[3].whenPressed(new SwitchPipeline(limelight));
+
+    driverY.toggleWhenPressed(new ShootCalculatedSpeed(limelight, shooter));
   }
   // driverController
 
