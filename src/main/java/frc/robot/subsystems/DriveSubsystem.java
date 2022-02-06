@@ -33,7 +33,7 @@ public class DriveSubsystem extends SubsystemBase {
         frontRight.restoreFactoryDefaults();
         backLeft.restoreFactoryDefaults();
         backRight.restoreFactoryDefaults();
-
+        
         frontLeft.setSmartCurrentLimit(Constants.CURRENT_LIMIT);
         frontRight.setSmartCurrentLimit(Constants.CURRENT_LIMIT);
         backLeft.setSmartCurrentLimit(Constants.CURRENT_LIMIT);

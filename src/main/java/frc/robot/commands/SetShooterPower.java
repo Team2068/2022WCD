@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class SetShooterPower extends CommandBase {
-  private ShooterSubsystem shooter;
+  ShooterSubsystem shooter;
   
   /** Creates a new SetShooterPower. */
   public SetShooterPower(ShooterSubsystem shooter) {
@@ -24,13 +24,13 @@ public class SetShooterPower extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.setPower(0.5);
+    shooter.rampUpShooter(.5);
   }
 
   // Called once the command ends or is interrupted.
-  @Override
+  @Override 
   public void end(boolean interrupted) {
-    shooter.setPower(0);
+    shooter.rampDownShooter();
   }
 
   // Returns true when the command should end.

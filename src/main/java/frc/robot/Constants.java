@@ -28,7 +28,7 @@ public final class Constants {
         public static final int TURBO_SPEED = 1;
 
         public static final int driverController = 0;
-		    public static int mechanismController;
+		public static int mechanismController = 1;
 		    public static int tankDrive;
     }
     public final static class ControllerConstants {
@@ -74,8 +74,8 @@ public final class Constants {
     }
   
     public final static class ShooterConstants{
-        public final static int FLYWHEEL_1 = 8;
-        public final static int FLYWHEEL_2 = 9;
+        public final static int FLYWHEEL_1 = 3;
+        public final static int FLYWHEEL_2 = 6;
     }
 
     public final static class AimbotConstants {

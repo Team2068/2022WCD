@@ -29,11 +29,10 @@ import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LidarSubsystem;
 import frc.robot.subsystems.Limelight;
-import frc.robot.commands.ToggleCameraMode;
-import frc.robot.commands.ToggleStreamMode;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.LidarSubsystem.LidarConfiguration;
 import frc.robot.subsystems.Pigeon;
+import frc.robot.commands.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -51,8 +50,12 @@ public class RobotContainer {
   private final DriveSubsystem driveSubsystem = new DriveSubsystem();
   private final XboxController driverController = new XboxController(DriveConstants.driverController);
   private final XboxController mechanismController = new XboxController(DriveConstants.mechanismController);
+
+  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+
   private final ShooterSubsystem shooter = new ShooterSubsystem();
   private final LidarSubsystem lidar = new LidarSubsystem(LidarConfiguration.DEFAULT);
+
   private SendableChooser<Command> autonomousChooser = new SendableChooser<Command>();
 
   /**
@@ -98,6 +101,11 @@ public class RobotContainer {
 
     driverRightTrigger.whenActive(new TurboOn(driveSubsystem)).whenInactive(new TurboOff(driveSubsystem));
     driverLeftTrigger.whenActive(new SlowOn(driveSubsystem)).whenInactive(new SlowOff(driveSubsystem));
+
+    //shooter
+    // mechanismX.whileHeld(new SetShooterPower(shooterSubsystem));
+    mechanismA.whenPressed(new Shoot(shooterSubsystem, .6));
+    mechanismB.whenPressed(new ShooterOff(shooterSubsystem));
 
     driverY.whileHeld(new SetShooterPower(shooter));
     driverX.whileHeld(new Aimbot(limelight, driveSubsystem));
