@@ -15,12 +15,15 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.LimelightConstants;
+
 import frc.robot.sensors.Lidar.LidarConfiguration;
+
 import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LidarSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.LidarSubsystem.LidarConfiguration;
 import frc.robot.subsystems.Pigeon;
 import frc.robot.commands.*;
 
@@ -40,8 +43,12 @@ public class RobotContainer {
   private final DriveSubsystem driveSubsystem = new DriveSubsystem();
   private final XboxController driverController = new XboxController(DriveConstants.driverController);
   private final XboxController mechanismController = new XboxController(DriveConstants.mechanismController);
+
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
-  private final LidarSubsystem lidar = new LidarSubsystem(LidarConfiguration.MAXIMUM_RANGE);
+
+  private final ShooterSubsystem shooter = new ShooterSubsystem();
+  private final LidarSubsystem lidar = new LidarSubsystem(LidarConfiguration.DEFAULT);
+
   private SendableChooser<Command> autonomousChooser = new SendableChooser<Command>();
 
   /**
@@ -107,6 +114,7 @@ public class RobotContainer {
     SmartDashboard.putData("Toggle Camera Mode", new ToggleCameraMode(limelight));
     SmartDashboard.putData("Toggle Stream Mode", new ToggleStreamMode(limelight));
     SmartDashboard.putData("Toggle Pipeline", new SwitchPipeline(limelight));
+    SmartDashboard.putData("Toggle Lidar Mode", new SwitchLidarMode(lidar));
   }
 
   /**
