@@ -90,13 +90,13 @@ public class RobotContainer {
     driverLeftTrigger.whenActive(new SlowOn(driveSubsystem)).whenInactive(new SlowOff(driveSubsystem));
 
     // drivers[0] should do actual climbing
-    // drivers[0].whileHeld(new SetShooterPower(shooterSubsystem));
+    drivers[0].whileHeld(new SetShooterPower(shooterSubsystem));
     drivers[1].whileHeld(new Aimbot(limelight, driveSubsystem));
     drivers[2].toggleWhenPressed(new climberAlign(color_sensor, driveSubsystem));
     drivers[3].whenPressed(new SwitchPipeline(limelight));
 
     //shooter
-    mechanismX.whileHeld(new SetShooterPower(shooterSubsystem));
+    // mechanismX.whileHeld(new SetShooterPower(shooterSubsystem));
     mechanismA.whenPressed(new Shoot(shooterSubsystem, .6));
     mechanismB.whenPressed(new ShooterOff(shooterSubsystem));
   }
