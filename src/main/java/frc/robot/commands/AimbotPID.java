@@ -16,7 +16,7 @@ import frc.robot.subsystems.Limelight;
 public class AimbotPID extends PIDCommand {
   /** Creates a new AimbotPID. */
 
-  public AimbotPID(DriveSubsystem driveSubsystem, Limelight limelight) {
+  public AimbotPID(Limelight limelight, DriveSubsystem driveSubsystem) {
     super(
         new PIDController(AimbotConstants.Kp, AimbotConstants.Ki, AimbotConstants.Kd),
         // This is how far away we are from the
@@ -25,9 +25,8 @@ public class AimbotPID extends PIDCommand {
         () -> 0,
         output -> {
           // Use the output here
-          double baseSpeed = 0.2;
-          double speed = output * baseSpeed;
-          driveSubsystem.tankDrive(speed, -speed);
+          double speed = output * AimbotConstants.baseSpeed  *-1;
+          driveSubsystem.tankDrive(speed, speed);
         });
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
@@ -38,6 +37,6 @@ public class AimbotPID extends PIDCommand {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return Math.abs(getController().getPositionError()) < AimbotConstants.minimumAdjustment;
   }
 }

@@ -8,7 +8,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.Constants.ShooterConstants;
-import frc.robot.Constants;
 import frc.robot.Constants.GameElementConstants;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -25,8 +24,8 @@ public class ShooterSubsystem extends SubsystemBase {
         // flywheel1.setSmartCurrentLimit(Constants.CURRENT_LIMIT);
         // flywheel2.setSmartCurrentLimit(Constants.CURRENT_LIMIT);
 
-        flywheel1.setOpenLoopRampRate(.2);
-        flywheel2.setOpenLoopRampRate(.2);
+        // flywheel1.setOpenLoopRampRate(.2);
+        // flywheel2.setOpenLoopRampRate(.2);
 
         flywheel1.setIdleMode(IdleMode.kCoast);
         flywheel2.setIdleMode(IdleMode.kCoast);

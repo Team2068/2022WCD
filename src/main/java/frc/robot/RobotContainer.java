@@ -103,11 +103,11 @@ public class RobotContainer {
     driverLeftTrigger.whenActive(new SlowOn(driveSubsystem)).whenInactive(new SlowOff(driveSubsystem));
 
     // drivers[0].whileHeld(new SetShooterPower(shooterSubsystem));
-    drivers[1].whileHeld(new Aimbot(limelight, driveSubsystem));
+    drivers[1].whileHeld(new AimbotPID(limelight, driveSubsystem));
     drivers[2].toggleWhenPressed(new climberAlign(color_sensor, driveSubsystem));
     drivers[3].whenPressed(new SwitchPipeline(limelight));
 
-    driverY.whileHeld(new ShootCalculatedSpeed(limelight, shooterSubsystem));
+    driverY.toggleWhenPressed(new ShootCalculatedSpeed(limelight, shooterSubsystem));
 
     //shooter
     // mechanismX.whileHeld(new SetShooterPower(shooterSubsystem));

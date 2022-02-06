@@ -46,11 +46,13 @@ public class Limelight extends SubsystemBase {
     final NetworkTableEntry tx = table.getEntry("tx");
     final NetworkTableEntry ty = table.getEntry("ty");
     final NetworkTableEntry ta = table.getEntry("ta");
+    final NetworkTableEntry offsetHorizontal = table.getEntry("Offset Horizontal");
 
     // read values periodically
     double x = tx.getDouble(0.0);
     double y = ty.getDouble(0.0);
     double area = ta.getDouble(0.0);
+    offsetHorizontal.setDouble(targetData.horizontalOffset);
     final String stream, cam;
 
     if (getStreamMode() == Constants.LimelightConstants.StreamMode.PIP_MAIN) {
