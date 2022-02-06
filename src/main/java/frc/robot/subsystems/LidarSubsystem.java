@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+// https://static.garmin.com/pumac/LIDAR_Lite_v3_Operation_Manual_and_Technical_Specifications.pdf
+
 public class LidarSubsystem extends SubsystemBase {
   /** Creates a new LidarSubsystem. */
   public enum LidarConfiguration {
