@@ -16,15 +16,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ShooterSubsystem extends SubsystemBase {
     /** Creates a new ExampleSubsystem. */
-    CANSparkMax flywheel1 = new CANSparkMax(ShooterConstants.FLYWHEEL_1, MotorType.kBrushed);
-    CANSparkMax flywheel2 = new CANSparkMax(ShooterConstants.FLYWHEEL_2, MotorType.kBrushed);
+    CANSparkMax flywheel1 = new CANSparkMax(ShooterConstants.FLYWHEEL_1, MotorType.kBrushless);
+    CANSparkMax flywheel2 = new CANSparkMax(ShooterConstants.FLYWHEEL_2, MotorType.kBrushless);
 
     public ShooterSubsystem() {
-        flywheel1.restoreFactoryDefaults();
-        flywheel2.restoreFactoryDefaults();
+        // flywheel1.restoreFactoryDefaults();
+        // flywheel2.restoreFactoryDefaults();
 
-        flywheel1.setSmartCurrentLimit(Constants.CURRENT_LIMIT);
-        flywheel2.setSmartCurrentLimit(Constants.CURRENT_LIMIT);
+        // flywheel1.setSmartCurrentLimit(Constants.CURRENT_LIMIT);
+        // flywheel2.setSmartCurrentLimit(Constants.CURRENT_LIMIT);
 
         flywheel1.setOpenLoopRampRate(.2);
         flywheel2.setOpenLoopRampRate(.2);
@@ -45,7 +45,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     // Will spin the motor until it gets up to speed.
     public void rampUpShooter(double speed) {
-        flywheel1.set(speed);
+        flywheel1.set(-speed);
         flywheel2.set(speed);
         // if((flywheel1.get() == speed) && (flywheel2.get() == speed)) {
         // Dashboard.putDebugNumber("Ramped up");
