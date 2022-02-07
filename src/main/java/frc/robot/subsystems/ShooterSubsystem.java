@@ -21,11 +21,11 @@ public class ShooterSubsystem extends SubsystemBase {
         // flywheel1.restoreFactoryDefaults();
         // flywheel2.restoreFactoryDefaults();
 
-        // flywheel1.setSmartCurrentLimit(Constants.CURRENT_LIMIT);
-        // flywheel2.setSmartCurrentLimit(Constants.CURRENT_LIMIT);
+        flywheel1.setSmartCurrentLimit(Constants.CURRENT_LIMIT);
+        flywheel2.setSmartCurrentLimit(Constants.CURRENT_LIMIT);
 
-        // flywheel1.setOpenLoopRampRate(.2);
-        // flywheel2.setOpenLoopRampRate(.2);
+        flywheel1.setOpenLoopRampRate(.2);
+        flywheel2.setOpenLoopRampRate(.2);
 
         flywheel1.setIdleMode(IdleMode.kCoast);
         flywheel2.setIdleMode(IdleMode.kCoast);
