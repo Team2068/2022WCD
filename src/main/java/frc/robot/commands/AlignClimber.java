@@ -11,16 +11,16 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.DriveSubsystem;
 
-public class climberAlign extends CommandBase {
-  ColorSensor color_sensor;
+public class AlignClimber extends CommandBase {
+  ColorSensor colorSensor;
   DriveSubsystem driveSubsystem;
 
-  /** Creates a new climberAlign. */
-  public climberAlign(ColorSensor color_sensor, DriveSubsystem driveSubsystem) {
-    this.color_sensor = color_sensor;
+  /** Creates a new AlignClimber. */
+  public AlignClimber(ColorSensor colorSensor, DriveSubsystem driveSubsystem) {
+    this.colorSensor = colorSensor;
     this.driveSubsystem = driveSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(color_sensor);
+    addRequirements(colorSensor);
     addRequirements(driveSubsystem);
   }
   private Color tapeBlack = new Color(0.259,0.473,0.268);
@@ -29,8 +29,8 @@ public class climberAlign extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    color_sensor.color_matcher.addColorMatch(tapeBlack);
-    color_sensor.color_matcher.addColorMatch(carpetGrey);
+    colorSensor.color_matcher.addColorMatch(tapeBlack);
+    colorSensor.color_matcher.addColorMatch(carpetGrey);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -38,8 +38,8 @@ public class climberAlign extends CommandBase {
   public void execute() {
     double driveSpeed = -0.15;
 
-    Color detected_Color = color_sensor.getColor();
-    ColorMatchResult match = color_sensor.matchColorTo(detected_Color);
+    Color detected_Color = colorSensor.getColor();
+    ColorMatchResult match = colorSensor.matchColorTo(detected_Color);
     if (match.color == tapeBlack) {
       // indicate or activate the climber
       this.cancel();
