@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.Constants;
 import frc.robot.Constants.GameElementConstants;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -33,15 +34,16 @@ public class ShooterSubsystem extends SubsystemBase {
 
     // distance will have to be a value measured by the limelight
     // or a distance sensor. This will find the speed the flywheel
-    // has to start at in order to score. Will need to be converted to m/s.
+    // has to start at in order to score.
     // was 11.03 ???
     public double findLowerSpeed(double distance) {
-        double vy = (GameElementConstants.LOW_HEIGHT + 7.35) / 1.5;
+        double vy = (GameElementConstants.LOW_HEIGHT + 11.03) / 1.5;
         double vx = distance / 1.5;
         double speed = Math.tan(vy / vx);
         return speed;
     }
 
+    // returns the desired speed in m/s
     public double findHighSpeed(double distance) {
         double vy = (GameElementConstants.HIGH_HEIGHT + 7.35) / 1.5;
         double vx = distance / 1.5;
@@ -55,7 +57,7 @@ public class ShooterSubsystem extends SubsystemBase {
         flywheel2.set(speed);
         // if((flywheel1.get() == speed) && (flywheel2.get() == speed)) {
         // Dashboard.putDebugNumber("Ramped up");
-        //  }
+        // }
     }
 
     // Will let the motor coast to a stop
@@ -66,13 +68,14 @@ public class ShooterSubsystem extends SubsystemBase {
         flywheel2.set(0);
     }
 
-    public void setPower(double power){
+    public void setPower(double power) {
         DriverStation.reportWarning("Shooting", true);
         // flywheel1.set(power);
         // flywheel2.set(power);
         flywheel1.setVoltage(power);
         flywheel2.setVoltage(power);
-      }
+    }
+
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
