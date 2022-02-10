@@ -10,9 +10,12 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class SetShooterPower extends CommandBase {
   ShooterSubsystem shooter;
   
+  double power = 0;
+
   /** Creates a new SetShooterPower. */
-  public SetShooterPower(ShooterSubsystem shooter) {
+  public SetShooterPower(ShooterSubsystem shooter, double power) {
     this.shooter = shooter;
+    this.power = power;
     addRequirements(shooter);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -24,7 +27,7 @@ public class SetShooterPower extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.rampUpShooter(.6);
+    shooter.rampUpShooter(power);
   }
 
   // Called once the command ends or is interrupted.

@@ -4,12 +4,17 @@
 
 package frc.robot.subsystems;
 
+import java.lang.invoke.ConstantCallSite;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants;
+import frc.robot.Constants.AimbotConstants;
 import frc.robot.Constants.GameElementConstants;
+import frc.robot.Constants.LimelightConstants;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -45,9 +50,11 @@ public class ShooterSubsystem extends SubsystemBase {
 
     // returns the desired speed in m/s
     public double findHighSpeed(double distance) {
-        double vy = (GameElementConstants.HIGH_HEIGHT + 7.35) / 1.5;
-        double vx = distance / 1.5;
-        double speed = Math.tan(vy / vx);
+        double time = 1.5;
+        double vy = ((GameElementConstants.HIGH_HEIGHT - Units.inchesToMeters(LimelightConstants.LIMELIGHT_HEIGHT)) + (0.5 * 9.8 * time*time)) / time;
+        double vx = distance / time;
+        //double speed = Math.tan(vy / vx);
+        double speed = Math.sqrt((vy*vy)+(vx*vx));
         return speed;
     }
 

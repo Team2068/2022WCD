@@ -17,7 +17,6 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.LimelightConstants;
 import frc.robot.commands.SetShooterPower;
 import frc.robot.commands.ShootCalculatedSpeed;
-import frc.robot.commands.Aimbot;
 import frc.robot.commands.SlowOff;
 import frc.robot.commands.SlowOn;
 import frc.robot.commands.SwitchLidarMode;
@@ -47,14 +46,10 @@ public class RobotContainer {
   private final Limelight limelight = new Limelight(LimelightConstants.LedMode.DEFAULT,
       LimelightConstants.CamMode.VISION);
   private final ColorSensor colorSensor = new ColorSensor();
-  private final Pigeon pigeon = new Pigeon(0);
   private final DriveSubsystem driveSubsystem = new DriveSubsystem();
   private final XboxController driverController = new XboxController(DriveConstants.driverController);
   private final XboxController mechanismController = new XboxController(DriveConstants.mechanismController);
-
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
-
-  private final ShooterSubsystem shooter = new ShooterSubsystem();
   private final LidarSubsystem lidar = new LidarSubsystem(LidarConfiguration.DEFAULT);
 
   private SendableChooser<Command> autonomousChooser = new SendableChooser<Command>();
@@ -104,13 +99,11 @@ public class RobotContainer {
     driverLeftTrigger.whenActive(new SlowOn(driveSubsystem)).whenInactive(new SlowOff(driveSubsystem));
 
     //shooter
-    mechanismA.whenPressed(new Shoot(shooterSubsystem, .6));
-    mechanismB.whenPressed(new ShooterOff(shooterSubsystem));
-    mechanismY.toggleWhenPressed(new ShootCalculatedSpeed(limelight, shooterSubsystem));
+    driverB.toggleWhenPressed(new ShootCalculatedSpeed(limelight, shooterSubsystem));
 
-    driverY.whileHeld(new SetShooterPower(shooter));
+    driverY.whileHeld(new SetShooterPower(shooterSubsystem, 0.9));
     driverX.whileHeld(new AimbotPID(limelight, driveSubsystem));
-    driverB.toggleWhenPressed(new AlignClimber(colorSensor, driveSubsystem));
+    //driverB.toggleWhenPressed(new AlignClimber(colorSensor, driveSubsystem));
     driverA.whenPressed(new SwitchPipeline(limelight));
   }
   // driverController

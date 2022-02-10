@@ -31,7 +31,7 @@ public class ShootCalculatedSpeed extends CommandBase {
   public void execute() {
     double distance = limelight.getDistance();
     double speed = Math.abs(shooterSubsystem.findHighSpeed(Units.inchesToMeters(distance)));
-    double rpm = speed * (60/(Math.PI * Units.inchesToMeters(0.625)));
+    double rpm = speed * (60/(Math.PI * Units.inchesToMeters(4)));
     double power = rpm / 11000;
 
     shooterSubsystem.rampUpShooter(power);
