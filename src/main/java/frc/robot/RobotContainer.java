@@ -15,16 +15,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.LimelightConstants;
-import frc.robot.commands.SetShooterPower;
-import frc.robot.commands.ShootCalculatedSpeed;
-import frc.robot.commands.SlowOff;
-import frc.robot.commands.SlowOn;
-import frc.robot.commands.SwitchLidarMode;
-import frc.robot.commands.SwitchPipeline;
-import frc.robot.commands.TankDrive;
-import frc.robot.commands.TurboOff;
-import frc.robot.commands.TurboOn;
-import frc.robot.commands.AlignClimber;
 import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LidarSubsystem;
@@ -99,7 +89,7 @@ public class RobotContainer {
     driverLeftTrigger.whenActive(new SlowOn(driveSubsystem)).whenInactive(new SlowOff(driveSubsystem));
 
     //shooter
-    driverB.toggleWhenPressed(new ShootCalculatedSpeed(limelight, shooterSubsystem));
+    driverB.whileHeld(new CalculatedShootPID(shooterSubsystem));
 
     driverY.whileHeld(new SetShooterPower(shooterSubsystem, 0.9));
     driverX.whileHeld(new AimbotPID(limelight, driveSubsystem));

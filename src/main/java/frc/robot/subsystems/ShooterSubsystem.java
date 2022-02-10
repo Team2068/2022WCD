@@ -14,14 +14,20 @@ import frc.robot.Constants;
 import frc.robot.Constants.AimbotConstants;
 import frc.robot.Constants.GameElementConstants;
 import frc.robot.Constants.LimelightConstants;
+import edu.wpi.first.math.controller.BangBangController;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ShooterSubsystem extends SubsystemBase {
     /** Creates a new ExampleSubsystem. */
     public CANSparkMax flywheel1 = new CANSparkMax(ShooterConstants.FLYWHEEL_1, MotorType.kBrushless);
     public CANSparkMax flywheel2 = new CANSparkMax(ShooterConstants.FLYWHEEL_2, MotorType.kBrushless);
+    public SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.065889, 0.12472);
+    public BangBangController bangController = new BangBangController(300);
 
     public ShooterSubsystem() {
         // flywheel1.restoreFactoryDefaults();
@@ -30,11 +36,13 @@ public class ShooterSubsystem extends SubsystemBase {
         flywheel1.setSmartCurrentLimit(Constants.CURRENT_LIMIT);
         flywheel2.setSmartCurrentLimit(Constants.CURRENT_LIMIT);
 
-        flywheel1.setOpenLoopRampRate(.2);
-        flywheel2.setOpenLoopRampRate(.2);
+        //flywheel1.setOpenLoopRampRate(.2);
+        //flywheel2.setOpenLoopRampRate(.2);
 
         flywheel1.setIdleMode(IdleMode.kCoast);
         flywheel2.setIdleMode(IdleMode.kCoast);
+
+        flywheel1.setInverted(true);
     }
 
     // distance will have to be a value measured by the limelight
@@ -60,7 +68,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     // Will spin the motor until it gets up to speed.
     public void rampUpShooter(double speed) {
-        flywheel1.set(-speed);
+        flywheel1.set(speed);
         flywheel2.set(speed);
         // if((flywheel1.get() == speed) && (flywheel2.get() == speed)) {
         // Dashboard.putDebugNumber("Ramped up");
@@ -85,6 +93,10 @@ public class ShooterSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+        SmartDashboard.putNumber("Flywheel 1 RPM", flywheel1.getEncoder().getVelocity());
+        SmartDashboard.putNumber("Flywheel 2 RPM", flywheel2.getEncoder().getVelocity());
+        // SmartDashboard.putNumber("Flywheel setpoint", bangController.getSetpoint());
+        // SmartDashboard.putNumber("Flywheel error", bangController.getError());
         // This method will be called once per scheduler run
     }
 }
