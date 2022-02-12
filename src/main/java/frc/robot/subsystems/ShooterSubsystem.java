@@ -4,18 +4,14 @@
 
 package frc.robot.subsystems;
 
-import java.lang.invoke.ConstantCallSite;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants;
-import frc.robot.Constants.AimbotConstants;
 import frc.robot.Constants.GameElementConstants;
 import frc.robot.Constants.LimelightConstants;
 import edu.wpi.first.math.controller.BangBangController;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;

@@ -15,13 +15,11 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.LimelightConstants;
-import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LidarSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.LidarSubsystem.LidarConfiguration;
-import frc.robot.subsystems.Pigeon;
 import frc.robot.commands.*;
 
 /**
@@ -35,7 +33,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Limelight limelight = new Limelight(LimelightConstants.LedMode.DEFAULT,
       LimelightConstants.CamMode.VISION);
-  private final ColorSensor colorSensor = new ColorSensor();
+  // private final ColorSensor colorSensor = new ColorSensor();
   private final DriveSubsystem driveSubsystem = new DriveSubsystem();
   private final XboxController driverController = new XboxController(DriveConstants.driverController);
   private final XboxController mechanismController = new XboxController(DriveConstants.mechanismController);
