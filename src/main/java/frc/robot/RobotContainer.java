@@ -86,8 +86,11 @@ public class RobotContainer {
     driverRightTrigger.whenActive(new TurboOn(driveSubsystem)).whenInactive(new TurboOff(driveSubsystem));
     driverLeftTrigger.whenActive(new SlowOn(driveSubsystem)).whenInactive(new SlowOff(driveSubsystem));
 
+    CalculatedShootPID cmd = new CalculatedShootPID(shooterSubsystem);
+
     //shooter
-    driverB.whileHeld(new CalculatedShootPID(shooterSubsystem));
+    //driverB.whileHeld(cmd);
+    driverB.whileHeld(cmd);
 
     driverY.whileHeld(new SetShooterPower(shooterSubsystem, 0.9));
     driverX.whileHeld(new AimbotPID(limelight, driveSubsystem));

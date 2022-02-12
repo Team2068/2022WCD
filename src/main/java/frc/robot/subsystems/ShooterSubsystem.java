@@ -20,25 +20,21 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ShooterSubsystem extends SubsystemBase {
     /** Creates a new ExampleSubsystem. */
-    public CANSparkMax flywheel1 = new CANSparkMax(ShooterConstants.FLYWHEEL_1, MotorType.kBrushless);
-    public CANSparkMax flywheel2 = new CANSparkMax(ShooterConstants.FLYWHEEL_2, MotorType.kBrushless);
+    public CANSparkMax flywheel = new CANSparkMax(ShooterConstants.FLYWHEEL_2, MotorType.kBrushless);
     public SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.065889, 0.12472);
-    public BangBangController bangController = new BangBangController(300);
+    public BangBangController bangController = new BangBangController(100);
 
     public ShooterSubsystem() {
         // flywheel1.restoreFactoryDefaults();
-        // flywheel2.restoreFactoryDefaults();
+        // flywheel.restoreFactoryDefaults();
 
-        flywheel1.setSmartCurrentLimit(Constants.CURRENT_LIMIT);
-        flywheel2.setSmartCurrentLimit(Constants.CURRENT_LIMIT);
+        flywheel.setSmartCurrentLimit(Constants.CURRENT_LIMIT);
 
         //flywheel1.setOpenLoopRampRate(.2);
-        //flywheel2.setOpenLoopRampRate(.2);
+        //flywheel.setOpenLoopRampRate(.2);
 
-        flywheel1.setIdleMode(IdleMode.kCoast);
-        flywheel2.setIdleMode(IdleMode.kCoast);
-
-        flywheel1.setInverted(true);
+        flywheel.setIdleMode(IdleMode.kCoast);
+        flywheel.setInverted(true);
     }
 
     // distance will have to be a value measured by the limelight
@@ -64,35 +60,24 @@ public class ShooterSubsystem extends SubsystemBase {
 
     // Will spin the motor until it gets up to speed.
     public void rampUpShooter(double speed) {
-        flywheel1.set(speed);
-        flywheel2.set(speed);
-        // if((flywheel1.get() == speed) && (flywheel2.get() == speed)) {
-        // Dashboard.putDebugNumber("Ramped up");
-        // }
+        flywheel.set(speed);
     }
 
     // Will let the motor coast to a stop
     public void rampDownShooter() {
-        // flywheel1.stopMotor();
-        // flywheel2.stopMotor();
-        flywheel1.set(0);
-        flywheel2.set(0);
+        flywheel.set(0);
     }
 
     public void setPower(double power) {
         DriverStation.reportWarning("Shooting", true);
-        // flywheel1.set(power);
-        // flywheel2.set(power);
-        flywheel1.setVoltage(power);
-        flywheel2.setVoltage(power);
+        flywheel.setVoltage(power);
     }
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Flywheel 1 RPM", flywheel1.getEncoder().getVelocity());
-        SmartDashboard.putNumber("Flywheel 2 RPM", flywheel2.getEncoder().getVelocity());
-        // SmartDashboard.putNumber("Flywheel setpoint", bangController.getSetpoint());
-        // SmartDashboard.putNumber("Flywheel error", bangController.getError());
+        SmartDashboard.putNumber("Flywheel RPM", flywheel.getEncoder().getVelocity());
+        SmartDashboard.putNumber("Flywheel setpoint", bangController.getSetpoint());
+        SmartDashboard.putNumber("Flywheel error", bangController.getError());
         // This method will be called once per scheduler run
     }
 }

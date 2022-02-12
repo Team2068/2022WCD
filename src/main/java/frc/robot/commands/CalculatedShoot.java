@@ -36,13 +36,14 @@ public class CalculatedShoot extends CommandBase {
     // double distance = Math.round(limelight.getDistance());
     // double shooterPower = ShooterConstants.shooterTable.get(distance);
     //  + 0.9*shooterSubsystem.feedforward.calculate(setpoint)
-    shooterSubsystem.rampUpShooter(shooterSubsystem.bangController.calculate(shooterSubsystem.flywheel2.getEncoder().getVelocity(), setpoint));
+    shooterSubsystem.rampUpShooter(shooterSubsystem.bangController.calculate(shooterSubsystem.flywheel.getEncoder().getVelocity(), setpoint));
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
-
+  public void end(boolean interrupted) {
+    
+  }
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
