@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 // https://static.garmin.com/pumac/LIDAR_Lite_v3_Operation_Manual_and_Technical_Specifications.pdf
 
 public class LidarSubsystem extends SubsystemBase {
-  /** Creates a new LidarSubsystem. */
+  
   public enum LidarConfiguration {
     DEFAULT, // Default mode, balanced performance
     SHORT_RANGE, // Short range, high speed
@@ -76,11 +76,8 @@ public class LidarSubsystem extends SubsystemBase {
   }
 
   public double getDistance(boolean biasCorrection) {
-    if (biasCorrection) {
-        _lidar.write(0x00, 0x04);
-    } else {
-        _lidar.write(0x00, 0x03);
-    }
+    if (biasCorrection) _lidar.write(0x00, 0x04);
+    else _lidar.write(0x00, 0x03);
 
     byte[] distanceArray = new byte[2];
 
@@ -93,7 +90,6 @@ public class LidarSubsystem extends SubsystemBase {
 
   public void reset() {
     _lidar.write(0x00, 0x00);
-  
   }
 
   public LidarConfiguration getCurrentConfiguration() {
@@ -105,6 +101,7 @@ public class LidarSubsystem extends SubsystemBase {
     double distance = getDistance(true) / 2.54; // converting to inches here :D
     SmartDashboard.putNumber("Lidar Sensor Distance",distance);
     String currentConfig = "";
+
     switch(getCurrentConfiguration()) {
       case DEFAULT:
         currentConfig = "Default";

@@ -47,8 +47,8 @@ public class Aimbot extends CommandBase {
       steering_adjust = Kp * heading + min_command;
     }
     // float to double comparison lol
-    if (Math.abs(steering_adjust) < AimbotConstants.minimumAdjustment) {
-      DriverStation.reportWarning("Steering adjustment too low, Minimum: " + AimbotConstants.minimumAdjustment + " Value: " + steering_adjust, false);
+    if (Math.abs(steering_adjust) < AimbotConstants.MINIMUM_ADJUSTMENT) {
+      DriverStation.reportWarning("Steering adjustment too low, Minimum: " + AimbotConstants.MINIMUM_ADJUSTMENT + " Value: " + steering_adjust, false);
       this.cancel(); // Too little adjustment is just straight
     } else {
       SmartDashboard.putNumber("Adjustment", steering_adjust);

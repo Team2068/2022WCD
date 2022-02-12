@@ -12,8 +12,6 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Pigeon extends SubsystemBase {
-  /** Creates a new Pigeon. */
-
   // Making this a separate subsystem for now
   // In the future this may be used for more than just the drivesubsystem?
 

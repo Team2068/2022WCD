@@ -15,23 +15,12 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.LimelightConstants;
-import frc.robot.commands.Aimbot;
-import frc.robot.commands.SetShooterPower;
-import frc.robot.commands.SlowOff;
-import frc.robot.commands.SlowOn;
-import frc.robot.commands.SwitchLidarMode;
-import frc.robot.commands.SwitchPipeline;
-import frc.robot.commands.TankDrive;
-import frc.robot.commands.TurboOff;
-import frc.robot.commands.TurboOn;
-import frc.robot.commands.AlignClimber;
 import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LidarSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.LidarSubsystem.LidarConfiguration;
-import frc.robot.subsystems.Pigeon;
 import frc.robot.commands.*;
 
 /**
@@ -46,10 +35,9 @@ public class RobotContainer {
   private final Limelight limelight = new Limelight(LimelightConstants.LedMode.DEFAULT,
       LimelightConstants.CamMode.VISION);
   private final ColorSensor colorSensor = new ColorSensor();
-  private final Pigeon pigeon = new Pigeon(0);
   private final DriveSubsystem driveSubsystem = new DriveSubsystem();
-  private final XboxController driverController = new XboxController(DriveConstants.driverController);
-  private final XboxController mechanismController = new XboxController(DriveConstants.mechanismController);
+  private final XboxController driverController = new XboxController(DriveConstants.DRIVE_CONTROLLER);
+  private final XboxController mechanismController = new XboxController(DriveConstants.MECHANISM_CONTROLLER);
 
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 
@@ -91,6 +79,7 @@ public class RobotContainer {
         .getRawAxis(ControllerConstants.RIGHT_TRIGGER) > ControllerConstants.TRIGGER_ACTIVATION_THRESHOLD);
     Trigger mechanismLeftTrigger = new Trigger(() -> mechanismController
         .getRawAxis(ControllerConstants.LEFT_TRIGGER) > ControllerConstants.TRIGGER_ACTIVATION_THRESHOLD);
+
     JoystickButton mechanismLeftBumper = new JoystickButton(mechanismController, Button.kRightBumper.value);
     JoystickButton mechanismRightBumper = new JoystickButton(mechanismController, Button.kLeftBumper.value);
 
@@ -99,11 +88,9 @@ public class RobotContainer {
     JoystickButton mechanismB = new JoystickButton(mechanismController, Button.kB.value);
     JoystickButton mechanismX = new JoystickButton(mechanismController, Button.kX.value);
 
-    driverRightTrigger.whenActive(new TurboOn(driveSubsystem)).whenInactive(new TurboOff(driveSubsystem));
+    driverRightTrigger.whileActiveContinuous(new ToggleTurbo(driveSubsystem));
     driverLeftTrigger.whenActive(new SlowOn(driveSubsystem)).whenInactive(new SlowOff(driveSubsystem));
 
-    //shooter
-    // mechanismX.whileHeld(new SetShooterPower(shooterSubsystem));
     mechanismA.whenPressed(new Shoot(shooterSubsystem, .6));
     mechanismB.whenPressed(new ShooterOff(shooterSubsystem));
 
@@ -112,7 +99,6 @@ public class RobotContainer {
     driverB.toggleWhenPressed(new AlignClimber(colorSensor, driveSubsystem));
     driverA.whenPressed(new SwitchPipeline(limelight));
   }
-  // driverController
 
   // SmartDashboard Commands
   private void setUpSmartDashboardCommands() {
@@ -124,9 +110,6 @@ public class RobotContainer {
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * 
-   * 
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {

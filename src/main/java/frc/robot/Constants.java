@@ -27,10 +27,11 @@ public final class Constants {
         public static final double SLOW_SPEED= 0.25;
         public static final int TURBO_SPEED = 1;
 
-        public static final int driverController = 0;
-		public static int mechanismController = 1;
-		    public static int tankDrive;
+        public static final int DRIVE_CONTROLLER = 0;
+		public static int MECHANISM_CONTROLLER = 1;
+		public static int tankDrive;
     }
+    
     public final static class ControllerConstants {
         public static final int RIGHT_TRIGGER = 3;
         public static final int LEFT_TRIGGER = 2;
@@ -79,7 +80,7 @@ public final class Constants {
     }
 
     public final static class AimbotConstants {
-        public static final double maxSpeed = 0.3;
-        public static final double minimumAdjustment = 0.001; 
+        public static final double MAX_SPEED = 0.3;
+        public static final double MINIMUM_ADJUSTMENT = 0.001; 
     }
 }

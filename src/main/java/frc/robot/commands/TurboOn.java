@@ -19,10 +19,6 @@ public class TurboOn extends InstantCommand {
     addRequirements(driveSubsystem);
   }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
-
   @Override
   public void execute() {
     driveSubsystem.turboOn();
