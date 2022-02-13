@@ -23,7 +23,7 @@ public class CalculatedShoot extends CommandBase {
     addRequirements(limelight);
   }
 
-  double setpoint = 3000;
+  // double setpoint = 3000;
 
   // Called when the command is initially scheduled.
   @Override
@@ -33,10 +33,16 @@ public class CalculatedShoot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // double distance = Math.round(limelight.getDistance());
+    //Change these according to line of best fit
+    double m = 0.0024739
+    double b = 0.332205
+
+    double shooterPower = (m * limelight.getDistance()) + b
+    shooterSubsystem.rampUpShooter(shooterPower);
+
     // double shooterPower = ShooterConstants.shooterTable.get(distance);
     //  + 0.9*shooterSubsystem.feedforward.calculate(setpoint)
-    shooterSubsystem.rampUpShooter(shooterSubsystem.bangController.calculate(shooterSubsystem.flywheel.getEncoder().getVelocity(), setpoint));
+    // shooterSubsystem.rampUpShooter(shooterSubsystem.bangController.calculate(shooterSubsystem.flywheel.getEncoder().getVelocity(), setpoint));
   }
 
   // Called once the command ends or is interrupted.
