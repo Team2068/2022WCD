@@ -89,7 +89,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     public void tankDrive(double leftSpeed, double rightSpeed) {
         leftSpeed = adjustSpeed(leftSpeed);
-        rightSpeed = adjustSpeed(rightSpeed)*-1;
+        rightSpeed = adjustSpeed(rightSpeed);
         differentialDrive.feed();
         differentialDrive.feedWatchdog();
         if (isForward) {

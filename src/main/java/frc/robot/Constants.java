@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+import java.util.Hashtable;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -31,6 +32,7 @@ public final class Constants {
 		public static int mechanismController = 1;
 		    public static int tankDrive;
     }
+
     public final static class ControllerConstants {
         public static final int RIGHT_TRIGGER = 3;
         public static final int LEFT_TRIGGER = 2;
@@ -42,7 +44,7 @@ public final class Constants {
         public final static double LOWER_HUB = 1.04; //meters
         public final static double HIGH_HEIGHT = UPPER_HUB - ROBOT_HEIGHT;
         public final static double LOW_HEIGHT = LOWER_HUB - ROBOT_HEIGHT;
-      }
+    }
 
     public final static class LimelightConstants {
         public final static class LedMode {
@@ -69,17 +71,26 @@ public final class Constants {
             public final static int RED_BALLS = 1;
             public final static int BLUE_BALLS = 2;
         }
-        public final static double LIMELIGHT_HEIGHT = 29.5; // This is for testing, needs to be changed for actual robot
+        public final static double LIMELIGHT_HEIGHT = 19; // This is for testing, needs to be changed for actual robot
         public final static double LIMELIGHT_ANGLE = 0;
     }
   
     public final static class ShooterConstants{
         public final static int FLYWHEEL_1 = 3;
         public final static int FLYWHEEL_2 = 6;
+
+        public final static Hashtable<Double, Double> shooterTable = new Hashtable<Double, Double>(){{
+            put(111.0, 0.6);
+            put(149.0, 0.7);
+            put(205.0, 0.83);
+        }};
     }
 
     public final static class AimbotConstants {
-        public static final double maxSpeed = 0.3;
-        public static final double minimumAdjustment = 0.001; 
+        public static final double baseSpeed = 0.5;
+        public static final double minimumAdjustment = 1.1;
+        public static final double Kp = 5;
+        public static final double Ki = 0;
+        public static final double Kd = 0.8;
     }
 }

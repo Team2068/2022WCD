@@ -15,23 +15,11 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.LimelightConstants;
-import frc.robot.commands.Aimbot;
-import frc.robot.commands.SetShooterPower;
-import frc.robot.commands.SlowOff;
-import frc.robot.commands.SlowOn;
-import frc.robot.commands.SwitchLidarMode;
-import frc.robot.commands.SwitchPipeline;
-import frc.robot.commands.TankDrive;
-import frc.robot.commands.TurboOff;
-import frc.robot.commands.TurboOn;
-import frc.robot.commands.AlignClimber;
-import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LidarSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.LidarSubsystem.LidarConfiguration;
-import frc.robot.subsystems.Pigeon;
 import frc.robot.commands.*;
 
 /**
@@ -45,15 +33,11 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Limelight limelight = new Limelight(LimelightConstants.LedMode.DEFAULT,
       LimelightConstants.CamMode.VISION);
-  private final ColorSensor colorSensor = new ColorSensor();
-  private final Pigeon pigeon = new Pigeon(0);
+  // private final ColorSensor colorSensor = new ColorSensor();
   private final DriveSubsystem driveSubsystem = new DriveSubsystem();
   private final XboxController driverController = new XboxController(DriveConstants.driverController);
   private final XboxController mechanismController = new XboxController(DriveConstants.mechanismController);
-
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
-
-  private final ShooterSubsystem shooter = new ShooterSubsystem();
   private final LidarSubsystem lidar = new LidarSubsystem(LidarConfiguration.DEFAULT);
 
   private SendableChooser<Command> autonomousChooser = new SendableChooser<Command>();
@@ -102,14 +86,15 @@ public class RobotContainer {
     driverRightTrigger.whenActive(new TurboOn(driveSubsystem)).whenInactive(new TurboOff(driveSubsystem));
     driverLeftTrigger.whenActive(new SlowOn(driveSubsystem)).whenInactive(new SlowOff(driveSubsystem));
 
-    //shooter
-    // mechanismX.whileHeld(new SetShooterPower(shooterSubsystem));
-    mechanismA.whenPressed(new Shoot(shooterSubsystem, .6));
-    mechanismB.whenPressed(new ShooterOff(shooterSubsystem));
+    CalculatedShootPID cmd = new CalculatedShootPID(shooterSubsystem);
 
-    driverY.whileHeld(new SetShooterPower(shooter));
-    driverX.whileHeld(new Aimbot(limelight, driveSubsystem));
-    driverB.toggleWhenPressed(new AlignClimber(colorSensor, driveSubsystem));
+    //shooter
+    //driverB.whileHeld(cmd);
+    driverB.whileHeld(cmd);
+
+    driverY.whileHeld(new SetShooterPower(shooterSubsystem, 0.9));
+    driverX.whileHeld(new AimbotPID(limelight, driveSubsystem));
+    //driverB.toggleWhenPressed(new AlignClimber(colorSensor, driveSubsystem));
     driverA.whenPressed(new SwitchPipeline(limelight));
   }
   // driverController
