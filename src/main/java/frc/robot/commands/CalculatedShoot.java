@@ -34,10 +34,10 @@ public class CalculatedShoot extends CommandBase {
   @Override
   public void execute() {
     //Change these according to line of best fit
-    double m = 0.0024739
-    double b = 0.332205
+    double m = 0.0024739;
+    double b = 0.332205;
 
-    double shooterPower = (m * limelight.getDistance()) + b
+    double shooterPower = (m * limelight.getDistance()) + b;
     shooterSubsystem.rampUpShooter(shooterPower);
 
     // double shooterPower = ShooterConstants.shooterTable.get(distance);
