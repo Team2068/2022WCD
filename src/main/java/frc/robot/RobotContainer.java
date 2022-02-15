@@ -31,18 +31,15 @@ import frc.robot.commands.*;
  * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  private final Limelight limelight = new Limelight(LimelightConstants.LedMode.DEFAULT,
-      LimelightConstants.CamMode.VISION);
+
+  private final Limelight limelight = new Limelight(LimelightConstants.LedMode.DEFAULT, LimelightConstants.CamMode.VISION);
+  private final LidarSubsystem lidar = new LidarSubsystem(LidarConfiguration.DEFAULT);
+  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   private final ColorSensor colorSensor = new ColorSensor();
-  private final DriveSubsystem driveSubsystem = new DriveSubsystem();
+  
   private final XboxController driverController = new XboxController(DriveConstants.DRIVE_CONTROLLER);
   private final XboxController mechanismController = new XboxController(DriveConstants.MECHANISM_CONTROLLER);
-
-  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
-
-  private final ShooterSubsystem shooter = new ShooterSubsystem();
-  private final LidarSubsystem lidar = new LidarSubsystem(LidarConfiguration.DEFAULT);
+  private final DriveSubsystem driveSubsystem = new DriveSubsystem();
 
   private SendableChooser<Command> autonomousChooser = new SendableChooser<Command>();
 
@@ -89,12 +86,12 @@ public class RobotContainer {
     JoystickButton mechanismX = new JoystickButton(mechanismController, Button.kX.value);
 
     driverRightTrigger.whileActiveContinuous(new ToggleTurbo(driveSubsystem));
-    driverLeftTrigger.whenActive(new SlowOn(driveSubsystem)).whenInactive(new SlowOff(driveSubsystem));
+    driverLeftTrigger.whileActiveContinuous(new ToggleSlow(driveSubsystem));
 
     mechanismA.whenPressed(new Shoot(shooterSubsystem, .6));
     mechanismB.whenPressed(new ShooterOff(shooterSubsystem));
 
-    driverY.whileHeld(new SetShooterPower(shooter));
+    driverY.whileHeld(new SetShooterPower(shooterSubsystem));
     driverX.whileHeld(new Aimbot(limelight, driveSubsystem));
     driverB.toggleWhenPressed(new AlignClimber(colorSensor, driveSubsystem));
     driverA.whenPressed(new SwitchPipeline(limelight));
@@ -113,7 +110,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
     return autonomousChooser.getSelected();
   }
 }

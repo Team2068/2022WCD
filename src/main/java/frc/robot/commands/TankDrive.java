@@ -20,12 +20,8 @@ public class TankDrive extends CommandBase {
   public TankDrive(DriveSubsystem driveSubsystem, XboxController controller) {
     this.driveSubsystem = driveSubsystem;
     this.controller = controller;
-    addRequirements(driveSubsystem);
-  }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
+    addRequirements(driveSubsystem);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -44,11 +40,5 @@ public class TankDrive extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     driveSubsystem.tankDrive(0, 0);
-  }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
   }
 }
