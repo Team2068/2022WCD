@@ -10,8 +10,8 @@ import frc.robot.subsystems.Limelight;
  
 
 public class SwitchPipeline extends InstantCommand {
-  private Limelight limelight;
-  /** Creates a new SwitchPipeline. */
+  Limelight limelight;
+
   public SwitchPipeline(Limelight in) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.limelight = in;
@@ -31,16 +31,9 @@ public class SwitchPipeline extends InstantCommand {
           limelight.setPipeline(Constants.LimelightConstants.Pipelines.BLUE_BALLS);
           break;
       }
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {}
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
-
- 
 }

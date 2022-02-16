@@ -26,7 +26,6 @@ public class DriveSubsystem extends SubsystemBase {
 
     private boolean isForward = true;
     private double maxSpeed = DriveConstants.NORMAL_SPEED;
-    // private Pigeon pigeon = new Pigeon(0);
 
     public DriveSubsystem() {
         frontLeft.restoreFactoryDefaults();
@@ -92,12 +91,9 @@ public class DriveSubsystem extends SubsystemBase {
         rightSpeed = adjustSpeed(rightSpeed)*-1;
         differentialDrive.feed();
         differentialDrive.feedWatchdog();
-        if (isForward) {
-            differentialDrive.tankDrive(leftSpeed, rightSpeed, false);
-        } else {
-            differentialDrive.tankDrive(leftSpeed * -1, rightSpeed * -1, false);
-        }
 
+        if (isForward) differentialDrive.tankDrive(leftSpeed, rightSpeed, false);
+        else differentialDrive.tankDrive(leftSpeed * -1, rightSpeed * -1, false);
     }
 
     public void resetDriveEncoders() {
@@ -119,9 +115,5 @@ public class DriveSubsystem extends SubsystemBase {
 
     public void arcadeDrive(double xSpeed, double zRotation) {
         differentialDrive.arcadeDrive(xSpeed, zRotation);
-    }
-
-    @Override
-    public void periodic() {
     }
 }

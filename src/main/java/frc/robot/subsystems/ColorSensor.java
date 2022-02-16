@@ -19,9 +19,9 @@ public class ColorSensor extends SubsystemBase{
   public Color currentColor;
 
   I2C.Port port = I2C.Port.kOnboard; 
+  ColorSensorV3 sensor = new ColorSensorV3(port);
 
   public ColorSensor() {}
-  ColorSensorV3 sensor = new ColorSensorV3(port);
 
   public Color getColor(){
     return sensor.getColor();
@@ -31,10 +31,6 @@ public class ColorSensor extends SubsystemBase{
     return color_matcher.matchClosestColor(currentColor);
   }
 
-  public boolean found(){
-    return sensor.isConnected();
-  }
-  
   @Override
   public void periodic(){
     currentColor = getColor();

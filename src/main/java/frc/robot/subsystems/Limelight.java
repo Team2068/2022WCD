@@ -13,14 +13,13 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class Limelight extends SubsystemBase {
-  /** Creates a new Limelight. */
+
   public Limelight(int ledMode, int streamMode) {
     setLedMode(ledMode);
     setStreamMode(streamMode);
   }
 
-  // basically a struct that contains all of the targetData we're pulling from the
-  // limelight
+  // basically a struct that contains all of the targetData we're pulling from the limelight
   public class TargetData {
     public boolean hasTargets = false;
     public double horizontalOffset = 0; // Horizontal Offset From Crosshair To Target -29.8 to 29.8 degrees
@@ -51,17 +50,8 @@ public class Limelight extends SubsystemBase {
     double area = ta.getDouble(0.0);
     final String stream, cam;
 
-    if (getStreamMode() == Constants.LimelightConstants.StreamMode.PIP_MAIN) {
-      stream = "Main";
-    } else {
-      stream = "Secondary";
-    }
-
-    if (getCameraMode() == Constants.LimelightConstants.CamMode.VISION) {
-      cam = "Vision";
-    } else {
-      cam = "Driver";
-    }
+    stream = (getStreamMode() == Constants.LimelightConstants.StreamMode.PIP_MAIN) ? "Main" : "Secondary";
+    cam = (getCameraMode() == Constants.LimelightConstants.CamMode.VISION) ? "Vision" : "Driver";
 
     // post to smart dashboard periodically
     SmartDashboard.putNumber("LimelightX", x);
